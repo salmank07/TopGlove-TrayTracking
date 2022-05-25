@@ -1,0 +1,223 @@
+<ion-content class="ion-no-padding" [fullscreen]="true" style="--background: #f9f9fc;">
+
+  <ion-grid class="infoBar">
+
+    <!-- <ion-text color="primary">
+      <h2>Statistic</h2>
+    </ion-text> -->
+
+
+    <ion-row class="nom ion-align-item-center ion-padding ">
+      <ion-col size="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>12</ion-card-title>
+            <ion-card-subtitle>Trolley in Process</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="3">
+        <ion-card style="background: #363F5E;">
+          <ion-card-header>
+            <ion-card-title>6</ion-card-title>
+            <ion-card-subtitle>Completed</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="3">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>46</ion-card-title>
+            <ion-card-subtitle>Total Quantity</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+      <ion-col size="3">
+        <ion-card style="background: #363F5E;">
+          <ion-card-header>
+            <ion-card-title>0</ion-card-title>
+            <ion-card-subtitle>Overall Defects</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+    <!-- filter panel -->
+    <ion-text color="dark" class="ion-padding-end" style="text-align: right;">
+      <h3 class="ion-padding-end">Filter</h3>
+    </ion-text>
+    <!-- <ion-list-header class="ion-padding-end ion-no-margin-top" style="text-align: right;">
+      <ion-label class="ion-padding-end">Filter</ion-label>
+    </ion-list-header> -->
+    
+
+    <ion-row class="filterpanel ion-padding-start ion-padding-bottom ion-padding-end">
+      <ion-col size="3">
+        <ion-item class="ion-no-padding">
+          <ion-label>From</ion-label>
+          <ion-select class="ion-no-padding" [interfaceOptions]="customPopoverOptions" interface="popover"
+            placeholder="Select One">
+            <ion-select-option value="brown">Brown</ion-select-option>
+            <ion-select-option value="blonde">Blonde</ion-select-option>
+            <ion-select-option value="black">Black</ion-select-option>
+            <ion-select-option value="red">Red</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3">
+        <ion-item class="ion-no-padding">
+          <ion-label>To</ion-label>
+          <ion-select class="ion-no-padding" [interfaceOptions]="customPopoverOptions" interface="popover"
+            placeholder="Select One">
+            <ion-select-option value="brown">Brown</ion-select-option>
+            <ion-select-option value="blonde">Blonde</ion-select-option>
+            <ion-select-option value="black">Black</ion-select-option>
+            <ion-select-option value="red">Red</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3">
+        <ion-item class="ion-no-padding">
+          <ion-label>User</ion-label>
+          <ion-select class="ion-no-padding" [interfaceOptions]="customPopoverOptions" interface="popover"
+            placeholder="Select One">
+            <ion-select-option value="Finn">Finn</ion-select-option>
+            <ion-select-option value="Bob">Bob</ion-select-option>
+            <ion-select-option value="Ray">Ray</ion-select-option>
+            <ion-select-option value="Alex">Alex</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="3">
+        <ion-item class="ion-no-padding">
+          <ion-label>Size</ion-label>
+          <ion-select class="ion-no-padding" [interfaceOptions]="customPopoverOptions" interface="popover"
+            placeholder="Select One">
+            <ion-select-option value="XS">XS</ion-select-option>
+            <ion-select-option value="S">S</ion-select-option>
+            <ion-select-option value="M">M</ion-select-option>
+            <ion-select-option value="XL">XL</ion-select-option>
+            <ion-select-option value="XXL">XXL</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+
+
+    <ion-row class="ion-align-items-center">
+      <ion-col size="6" class="--ion-grid-column-padding">
+        <ion-card-header>
+          <ion-card-title>Air Dry</ion-card-title>
+        </ion-card-header>
+        <ion-card>
+          <ion-card-content>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="cart" slot="start"></ion-icon>
+              <ion-label>No of Trolley<br /><span>{{ _count }}</span></ion-label>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="albums" slot="start"></ion-icon>
+              <ion-label>Quantity<br /><span>{{ _airDryQuan }}</span></ion-label>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="hourglass" slot="start"></ion-icon>
+              <ion-label>Next Completion<br /><span>16:4:58
+                </span><br />
+                <ion-progress-bar color="success" value="0.50"></ion-progress-bar>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="6">
+        <ion-card-header>
+          <ion-card-title>Oven dry</ion-card-title>
+        </ion-card-header>
+        <ion-card>
+          <ion-card-content>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="cart" slot="start"></ion-icon>
+              <ion-label>No of Trolley<br /><span>13</span></ion-label>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="albums" slot="start"></ion-icon>
+              <ion-label>Quantity<br /><span>36</span></ion-label>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="hourglass" slot="start"></ion-icon>
+              <ion-label>Next Completion<br /><span>38:12:58
+                </span><br />
+                <ion-progress-bar color="success" value="0.25"></ion-progress-bar>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="4">
+        <ion-card-header>
+          <ion-card-title>Pass</ion-card-title>
+        </ion-card-header>
+        <ion-card>
+          <ion-card-content>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="cart" slot="start"></ion-icon>
+              <ion-label>Trolley<br /><span>17</span></ion-label>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="albums" slot="start"></ion-icon>
+              <ion-label>Quantity<br /><span>28</span></ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card-header>
+          <ion-card-title>Oven Dry (Re)</ion-card-title>
+        </ion-card-header>
+        <ion-card>
+          <ion-card-content>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="cart" slot="start"></ion-icon>
+              <ion-label>Trolley<br /><span>2</span></ion-label>
+              <!-- <ion-button fill="outline" slot="end">View</ion-button> -->
+            </ion-item>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="albums" slot="start"></ion-icon>
+              <ion-label>Quantity<br /><span>20</span></ion-label>
+              <!-- <ion-button fill="outline" slot="end">View</ion-button> -->
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="4">
+        <ion-card-header>
+          <ion-card-title>Pass (Rework)</ion-card-title>
+        </ion-card-header>
+        <ion-card>
+          <ion-card-content>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="cart" slot="start"></ion-icon>
+              <ion-label>Trolley<br /><span>12</span></ion-label>
+              <!-- <ion-button fill="outline" slot="end">View</ion-button> -->
+            </ion-item>
+            <ion-item class="ion-no-padding">
+              <ion-icon name="albums" slot="start"></ion-icon>
+              <ion-label>Quantity<br /><span>20</span></ion-label>
+              <!-- <ion-button fill="outline" slot="end">View</ion-button> -->
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+
+
+
+</ion-content>

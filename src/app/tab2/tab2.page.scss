@@ -1,0 +1,93 @@
+// ion-grid {
+//     border-radius: 10px;
+//     background: transparent;
+//     padding: 0 !important;
+//     box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+//     border: 1px solid rgba(17, 17, 26, 0.2);
+// }
+span {
+    margin-top: 3px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+h3 {
+    color: #15133c;
+    margin: 0px 10px 0px 0px;
+    font-weight: bold;
+}
+ion-button {
+    --border-width:1px;
+}
+.header {
+    font-weight: 600;
+    color: #15133c;
+    background: #c4ddff !important;
+    border-radius:10px 10px 0 0 ;
+    padding: 4px 0;
+}
+ion-card {
+    border-radius: 20px;
+    margin: 0 16px 16px 16px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+ion-item {
+    --inner-border-width: 0;
+    padding: 0px !important;
+    
+}
+.nom ion-item {
+    --background: #4470d0;
+}
+.nom ion-label {
+    color: #fff;
+}
+ion-icon {
+    background: #92b9df;
+    color: #fff;
+    padding: 14px;
+    border-radius: 14px;
+}
+ion-card-header {
+    padding: 7px 18px 10px;
+}
+.nom ion-card-header {
+    padding: 20px 20px 16px;
+}
+ion-card-title {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+.item-native {
+    padding-inline-start: 0px !important;
+    padding: 0px !important;
+    padding-left: 0px !important;
+}
+.nom ion-card {
+    margin: 0px !important;
+    background: #3C84F4;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    // box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
+    border-radius: 13px;
+}
+.nom ion-card ion-card-title, ion-card-subtitle {
+    color: #fff !important;
+}
+ion-progress-bar {
+    height: 7px;
+    border-radius: 12px;
+}
+.filterpanel ion-item {
+    border-radius: 20px;
+    // box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    --inner-border-width: 0;
+    padding: 0px !important;
+}
+.filterpanel ion-label {
+    padding-left: 12px;
+}
+.noscss ion-icon {
+    padding: 0;
+    color: grey;
+    border-radius: 0;
+}

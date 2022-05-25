@@ -1,0 +1,24 @@
+ion-item {
+    --inner-border-width: 0;
+    padding-right: 10px;
+    margin: 2px;
+}
+ion-input, ion-textarea {
+    background: rgba(0, 0, 0, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(17, 17, 26, 0.2);
+    --padding-start: 15px !important;
+}
+ion-input::placeholder {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.04);
+}
+ion-label {
+    font-weight: 600;
+    color: #15133c !important;
+}
+.dbutton {
+    background-color: #92b9df;
+    color:#fff;
+    border-radius: 10px;
+}

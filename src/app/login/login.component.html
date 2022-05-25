@@ -1,0 +1,44 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+
+
+  <ion-card>
+    <ion-grid>
+      <form  [formGroup]="loginForm">
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="12" class="ion-justify-content-center">
+            <div class="box">
+              <img src="../../assets/images/icon-512x512.png" />
+            </div>
+
+            <!-- <ion-text style="color: #000;" color="dark">
+            <h1>Welcome </h1>
+            <h4>Login to continue,</h4>
+          </ion-text> -->
+
+          </ion-col>
+          <ion-col size="12" style="margin-top: 5rem;">
+            <ion-item>
+              <ion-label position="floating">
+                Enter Username
+              </ion-label>
+              <ion-input formControlName="userName"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12">
+            <ion-item>
+              <ion-label position="floating">
+                Password
+              </ion-label>
+              <ion-icon class="ion-justify-content-center" name="eye-off-outline" slot="end"></ion-icon>
+              <ion-input formControlName="password"></ion-input>
+            </ion-item>
+            <ion-col size="4">
+              <ion-button (click)="login()" expand="block" color="light">Sign in</ion-button>
+            </ion-col>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-grid>
+  </ion-card>
+</ion-content>
+
