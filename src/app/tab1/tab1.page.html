@@ -1,27 +1,19 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Input Screen
-    </ion-title>
-  </ion-toolbar>
-</ion-header> -->
-
-<!-- <ion-header collapse="condense">
-  <ion-toolbar>
-    <ion-title size="large">Tab 1</ion-title>
-  </ion-toolbar>
-</ion-header> -->
-
-<ion-content [fullscreen]="true" class="ion-padding">
-
+<ion-content class="ion-padding">
   <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button class="dbutton" (click)="isSuperUser = 'true'" expand="block">report Screen</ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button class="dbutton" (click)="isSuperUser = 'false'" expand="block">Input Screen</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!-- <ion-grid>
     <form (ngSubmit)="uploadEntity()" [formGroup]="inputForm">
-
-
-
       <ion-row>
         <ion-col class="ion-align-self-center">
-          <ion-item>
+          <ion-item lines="none">
             <ion-label>Former Size</ion-label>
             <ion-select formControlName="formerType" okText="Okay" cancelText="Dismiss">
               <ion-select-option value="XS">XS</ion-select-option>
@@ -34,7 +26,7 @@
           </ion-item>
         </ion-col>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Quantity</ion-label>
             <ion-input formControlName="noOfFormer" placeholder="30"></ion-input>
           </ion-item>
@@ -43,7 +35,7 @@
 
       <ion-row>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Trolley No</ion-label>
             <ion-input formControlName="batchNo" placeholder="Trolley23"></ion-input>
           </ion-item>
@@ -52,7 +44,7 @@
 
       <ion-row>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Start date & Time</ion-label>
             <ion-input id="open-date-input-1" formControlName="dateTime" [value]="dateValue1"></ion-input>
             <ion-popover trigger="open-date-input-1" show-backdrop="true">
@@ -64,26 +56,41 @@
           </ion-item>
         </ion-col>
         <ion-col class="ion-align-self-end">
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Process</ion-label>
-            <ion-select formControlName="process" interface="popover" placeholder="Air Dry">
+            <ion-select [(ngModel)]="isReOven" formControlName="process" interface="popover" placeholder="Air Dry">
               <ion-select-option value="Air Dry">Air Dry</ion-select-option>
               <ion-select-option value="Oven Dry">Oven Dry</ion-select-option>
+              <ion-select-option value="ReOven">Re Oven</ion-select-option>
             </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="isReOven == 'ReOven'">
+        <ion-col>
+          <ion-item lines="none">
+            <ion-label position="stacked">End date & Time</ion-label>
+            <ion-input id="open-date-input-2" formControlName="dateTime" [value]="dateValue2"></ion-input>
+            <ion-popover trigger="open-date-input-2" show-backdrop="true">
+              <ng-template>
+                <ion-datetime #popoverDatetime2 presentation="date-time"
+                  (ionChange)="dateValue2 = formatDate(popoverDatetime2.value)"></ion-datetime>
+              </ng-template>
+            </ion-popover>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Operator Name</ion-label>
             <ion-input formControlName="user" placeholder="Finn"></ion-input>
           </ion-item>
         </ion-col>
         <ion-col class="ion-align-self-end">
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Shift</ion-label>
-            <ion-select formControlName="status" [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Shift">
+            <ion-select formControlName="status" interface="popover" placeholder="Shift">
               <ion-select-option value="Day">Day</ion-select-option>
               <ion-select-option value="Night">Night</ion-select-option>
             </ion-select>
@@ -92,22 +99,19 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Additional Info</ion-label>
             <ion-textarea formControlName="additionalInfo" placeholder="Enter more information here..."></ion-textarea>
           </ion-item>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col style="padding-left: 21px;">
-          <ion-button (click)="clear()" expand="block" color="dark" fill="outline">Reset</ion-button>
-        </ion-col>
+      <ion-row class="ion-padding">
         <ion-col style="padding-right: 21px;">
           <ion-button type="submit" class="dbutton" expand="block">Submit</ion-button>
         </ion-col>
       </ion-row>
     </form>
-  </ion-grid>
-
-
+  </ion-grid> -->
+  <app-input *ngIf="isSuperUser == 'false'"></app-input>
+  <app-report-page *ngIf="isSuperUser == 'true'"></app-report-page>
 </ion-content>

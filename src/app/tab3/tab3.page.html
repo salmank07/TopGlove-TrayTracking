@@ -1,6 +1,7 @@
 <ion-content [fullscreen]="true">
   <ion-list-header>
-    <ion-label>Welcome Ray!</ion-label>
+    <ion-label *ngIf="role == 'false'">Welcome {{ user }}!</ion-label>
+    <ion-label *ngIf="role == 'true'">Welcome Ray!</ion-label>
     <ion-item lines="none">
       <ion-button (click)="logout()" style="padding-right: 10px;" class="primary">
         <ion-icon slot="start" name="log-out-outline"></ion-icon>
@@ -8,10 +9,12 @@
       </ion-button>
     </ion-item>
   </ion-list-header>
+
   <ion-list>
     <ion-item-sliding>
       <ion-item>
-        <ion-label>Ray<br /><span>Admin</span></ion-label>
+        <ion-label *ngIf="role == 'false'">{{ user }}<br /><span>{{ spec }}</span></ion-label>
+        <ion-label *ngIf="role == 'true'">Ray<br /><span>Admin</span></ion-label>
       </ion-item>
       <ion-item-options>
         <ion-item-option color="primary">
@@ -25,27 +28,113 @@
       </ion-item-options>
     </ion-item-sliding>
     <div class="userlist" *ngIf="onLoad()">
-
-
-      <ion-list-header>
+      <!-- <ion-list-header>
         <ion-label>User's List</ion-label>
       </ion-list-header>
-      <ion-item-sliding>
+      <ion-item-sliding *ngFor="let item of _data">
         <ion-item>
-          <ion-label>Finn<br /><span>Operator</span></ion-label>
+          <ion-label>{{ item.userName }}<br /><span>{{ item.role }}</span><br /><span>{{ item.emailId }}</span>
+          </ion-label>
         </ion-item>
         <ion-item-options>
           <ion-item-option color="primary">
-            <ion-icon slot="start" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-            More
+            <ion-button (click)="view = !view">
+              <ion-icon slot="start" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+              Edit
+            </ion-button>
           </ion-item-option>
-          <ion-item-option color="danger">
+          <ion-item-option (click)="deleteUser(item.userId)" color="danger">
             <ion-icon slot="start" name="archive"></ion-icon>
             Delete
           </ion-item-option>
         </ion-item-options>
-      </ion-item-sliding>
-      <ion-item-sliding>
+      </ion-item-sliding> -->
+
+      <!-- modal content -->
+      <div *ngFor="let item of _data; let i = index;">
+        <ion-modal [isOpen]="view" trigger="trigger-button{{i}}">
+          <ng-template>
+            <ion-content>
+              <ion-grid>
+                <form (ngSubmit)="updateUser()" [formGroup]="updateUserForm">
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label position="stacked">Name:</ion-label>
+                        <ion-input [value]="item.userName" formControlName="userName" (change)="doChange($event)"
+                          placeholder="Finn"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col class="ion-align-self-center">
+                      <ion-item>
+                        <ion-label>Role</ion-label>
+                        <ion-select [value]=" item.role" (change)="doChange($event)" okText="Okay" cancelText="Dismiss">
+                          <ion-select-option value="Admin">Admin</ion-select-option>
+                          <ion-select-option value="operator">operator</ion-select-option>
+                        </ion-select>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label position="stacked">Username</ion-label>
+                        <ion-input [value]=" item.userName" formControlName="userName" placeholder="Finn Axe">
+                        </ion-input>
+                      </ion-item>
+                    </ion-col>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label position="stacked">Password</ion-label>
+                        <ion-input [value]=" item.password" id="open-date-input-1" formControlName="password"
+                          placeholder="******"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <!-- <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label position="stacked">User Id</ion-label>
+                        <ion-input formControlName="userId" placeholder="Finn27"></ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row> -->
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label position="stacked">Email Id</ion-label>
+                        <ion-input [value]=" item.emailId" (change)="doChange($event)" placeholder="Finn@mail.com">
+                        </ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label position="stacked">Additional Info</ion-label>
+                        <ion-textarea [value]=" item.additionalInfo" (change)="doChange($event)"
+                          placeholder="Enter more information here...">
+                        </ion-textarea>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col style="padding-left: 21px;">
+                      <ion-button expand="block" color="medium" fill="outline">Reset</ion-button>
+                    </ion-col>
+                    <ion-col style="padding-right: 21px;">
+                      <ion-button type="submit" class="dbutton" expand="block">Create!</ion-button>
+                    </ion-col>
+                  </ion-row>
+                </form>
+              </ion-grid>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </div>
+
+      <!-- <ion-item-sliding>
         <ion-item>
           <ion-label>Luke<br /><span>Operator</span></ion-label>
         </ion-item>
@@ -74,7 +163,47 @@
             Delete
           </ion-item-option>
         </ion-item-options>
-      </ion-item-sliding>
+      </ion-item-sliding>  -->
+
+      <ion-grid>
+        <ion-row>
+          <ion-col *ngFor="let item of _data; let i = index;" size="4">
+            <ion-card>
+              <ion-card-header>
+                <ion-text color="primary">
+                  <h3>{{ item.userName }}</h3>
+                </ion-text>
+                <ion-card-subtitle style="text-decoration: none;">
+                  {{ item.role }}<br />
+                  {{ item.userName }}<br />
+                  {{ item.emailId }}
+                </ion-card-subtitle>
+                <ion-row class="ion-no-padding ion-no-margin">
+                  <ion-col class="ion-no-padding ion-no-margin">
+                    <ion-button id="trigger-button{{i}}" color="primary" size="snall">
+                      <ion-icon name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                  <ion-col class="ion-no-padding ion-no-margin">
+                    <ion-button (click)="deleteUser(item.userId)" color="danger" size="snall">
+                      <ion-icon name="trash-outline"></ion-icon>
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-header>
+
+            </ion-card>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+
+
+
+
+
+
+
     </div>
 
   </ion-list>

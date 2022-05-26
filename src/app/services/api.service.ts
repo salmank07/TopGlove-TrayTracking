@@ -26,13 +26,17 @@ export class ApiService {
     const url = this.getUserApiUrl('GetLogin');
     return this.http.post(url, params);
   }
-
+  
   logout = () => {
     localStorage.removeItem('userName');
     localStorage.removeItem('isSuperUser');
     localStorage.removeItem('Role');
   }
 
+  updateTrayDetails = (params: any): Observable<any> => {
+    const url = this.getInputApiUrl('UpdateTrayDetail');
+    return this.http.put(url, params);
+  }
   insertEntity = (params: any): Observable<any> => {
     const url = this.getInputApiUrl('AddTrayDetail');
     return this.http.post(url, params);
@@ -48,18 +52,33 @@ export class ApiService {
     return this.http.post(url, params);
   }
 
+  getExcelReport = (params: any): Observable<HttpResponse<ArrayBuffer>> => {
+    const url = this.getInputApiUrl('GenerateExcel');
+    return this.http.post(url, params, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/octet-stream',
+        'Accept': 'application/octet-stream',
+      }),
+      observe: 'response',
+      responseType: 'arraybuffer'
+    });
+  }
+
   addUser = (params: any): Observable<any> => {
     const url = this.getUserApiUrl('AddUser');
     return this.http.post(url, params);
   }
 
   updateUser = (params: any): Observable<any> => {
+    console.log('geetha')
     const url = this.getUserApiUrl('UpdateLogin');
-    return this.http.post(url, params);
+    return this.http.put(url, params);
   }
-  deleteUser = (params: any): Observable<any> => {
-    const url = this.getUserApiUrl('DeletUser');
-    return this.http.post(url, params);
+
+ 
+  deleteUser = (params: number): Observable<any> => {
+    const url = this.getUserApiUrl('DeletUser?id=');
+    return this.http.delete(url + params);
   }
 
   // deleteEntity = (params: any): Observable<any> => {

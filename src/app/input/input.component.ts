@@ -1,51 +1,45 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ValueAccessor } from '@ionic/angular/directives/control-value-accessors/value-accessor';
-import * as moment from 'moment';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { LoadingService } from '../services/loading.service';
 import { NotificationService } from '../services/toast.service';
 
-
-
-
-
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-input',
+  templateUrl: './input.component.html',
+  styleUrls: ['./input.component.scss'],
 })
-export class Tab1Page {
-
+export class InputComponent implements OnInit {
 
   dateValue1: any;
   dateValue2: any;
   dateformate: string;
   isReOven:any;
+  ngOnInit(): void {
+    
+  }
   constructor(
     private apiService: ApiService,
     private fb: FormBuilder,
     private toast: NotificationService,
     private loadingService: LoadingService
   ) {
-    this.generateInputForm()
+    this.generateInputForm();
   }
 
   inputForm: FormGroup;
 
   isSuperUser:any
   view:boolean
-    
-  
+
   formatDate(params: any) {
     return params
   }
 
   generateInputForm = () => {
 
-    this.isSuperUser = localStorage.getItem('isSuperUser');
-    
-    console.log(this.isSuperUser)
+     this.isSuperUser = localStorage.getItem('isSuperUser')
+     
 
     this.inputForm = this.fb.group({
       formerType: [''],
@@ -55,7 +49,7 @@ export class Tab1Page {
       dateTime: [''],
       status: [''],
       user: [''],
-      additionalInfo: ['']
+      additionalInfo: [''],
     })
 
     // date: String = this.inputForm.value.datTime.toUTCString();
@@ -77,5 +71,4 @@ export class Tab1Page {
     });
     
   }
-
 }

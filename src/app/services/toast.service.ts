@@ -24,7 +24,7 @@ export class NotificationService {
             message: message,
             duration: 1500,
             position: 'top',
-            color: 'primary',
+            color: 'success',
             cssClass: 'app-update-toast'
         });
 

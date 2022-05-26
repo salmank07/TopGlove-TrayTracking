@@ -7,7 +7,7 @@
     </ion-text> -->
 
 
-    <ion-row class="nom ion-align-item-center ion-padding ">
+    <!-- <ion-row class="nom ion-align-item-center ion-padding ">
       <ion-col size="3">
         <ion-card>
           <ion-card-header>
@@ -40,70 +40,71 @@
           </ion-card-header>
         </ion-card>
       </ion-col>
-    </ion-row>
+    </ion-row> -->
 
 
     <!-- filter panel -->
-    <ion-text color="dark" class="ion-padding-end" style="text-align: right;">
+    <!-- <ion-text color="dark" class="ion-padding-end" style="text-align: right;">
       <h3 class="ion-padding-end">Filter</h3>
-    </ion-text>
+    </ion-text> -->
     <!-- <ion-list-header class="ion-padding-end ion-no-margin-top" style="text-align: right;">
       <ion-label class="ion-padding-end">Filter</ion-label>
     </ion-list-header> -->
-    
 
+    <!-- <form [formGroup]="filter" (ngSubmit)="generateTrayDetails()"> -->
     <ion-row class="filterpanel ion-padding-start ion-padding-bottom ion-padding-end">
-      <ion-col size="3">
-        <ion-item class="ion-no-padding">
-          <ion-label>From</ion-label>
-          <ion-select class="ion-no-padding" [interfaceOptions]="customPopoverOptions" interface="popover"
-            placeholder="Select One">
-            <ion-select-option value="brown">Brown</ion-select-option>
-            <ion-select-option value="blonde">Blonde</ion-select-option>
-            <ion-select-option value="black">Black</ion-select-option>
-            <ion-select-option value="red">Red</ion-select-option>
-          </ion-select>
+      <ion-col size="2.5">
+        <ion-item>
+          <ion-label position="stacked">Start date & Time</ion-label>
+          <ion-input id="open-date-input-1" [(ngModel)]="from"></ion-input>
+          <ion-popover trigger="open-date-input-1" show-backdrop="true">
+            <ng-template>
+              <ion-datetime #popoverDatetime1 presentation="date-time" (ionChange)="from = popoverDatetime1.value">
+              </ion-datetime>
+            </ng-template>
+          </ion-popover>
         </ion-item>
       </ion-col>
-      <ion-col size="3">
-        <ion-item class="ion-no-padding">
-          <ion-label>To</ion-label>
-          <ion-select class="ion-no-padding" [interfaceOptions]="customPopoverOptions" interface="popover"
-            placeholder="Select One">
-            <ion-select-option value="brown">Brown</ion-select-option>
-            <ion-select-option value="blonde">Blonde</ion-select-option>
-            <ion-select-option value="black">Black</ion-select-option>
-            <ion-select-option value="red">Red</ion-select-option>
-          </ion-select>
+      <ion-col size="2.5">
+        <ion-item>
+          <ion-label position="stacked">End date & Time</ion-label>
+          <ion-input id="open-date-input-2" [(ngModel)]="to"></ion-input>
+          <ion-popover trigger="open-date-input-2" show-backdrop="true">
+            <ng-template>
+              <ion-datetime #popoverDatetime2 presentation="date-time" (ionChange)="to = popoverDatetime2.value">
+              </ion-datetime>
+            </ng-template>
+          </ion-popover>
         </ion-item>
       </ion-col>
-      <ion-col size="3">
+      <ion-col size="2.5" class="ion-align-self-center">
         <ion-item class="ion-no-padding">
           <ion-label>User</ion-label>
-          <ion-select class="ion-no-padding" [interfaceOptions]="customPopoverOptions" interface="popover"
-            placeholder="Select One">
+          <ion-select [(ngModel)]="user" class="ion-no-padding" interface="popover" placeholder="Select One">
+            <ion-select-option value="">All</ion-select-option>
             <ion-select-option value="Finn">Finn</ion-select-option>
             <ion-select-option value="Bob">Bob</ion-select-option>
             <ion-select-option value="Ray">Ray</ion-select-option>
             <ion-select-option value="Alex">Alex</ion-select-option>
+            <ion-select-option value="Geetha">Geetha</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
-      <ion-col size="3">
+      <ion-col size="2.5" class="ion-align-self-center">
         <ion-item class="ion-no-padding">
-          <ion-label>Size</ion-label>
-          <ion-select class="ion-no-padding" [interfaceOptions]="customPopoverOptions" interface="popover"
-            placeholder="Select One">
-            <ion-select-option value="XS">XS</ion-select-option>
-            <ion-select-option value="S">S</ion-select-option>
-            <ion-select-option value="M">M</ion-select-option>
-            <ion-select-option value="XL">XL</ion-select-option>
-            <ion-select-option value="XXL">XXL</ion-select-option>
+          <ion-label>Process</ion-label>
+          <ion-select [(ngModel)]="process" class="ion-no-padding" interface="popover" placeholder="Select One">
+            <ion-select-option value="">All</ion-select-option>
+            <ion-select-option value="Air Dry">Air Dry</ion-select-option>
+            <ion-select-option value="Oven Dry">Oven Dry</ion-select-option>
           </ion-select>
         </ion-item>
+      </ion-col>
+      <ion-col size="2" class="ion-align-self-center">
+        <ion-button (click)="generateTrayDetails()" color="primary">Filter</ion-button>
       </ion-col>
     </ion-row>
-
+    <!-- </form> -->
 
 
     <ion-row class="ion-align-items-center">
@@ -139,11 +140,11 @@
           <ion-card-content>
             <ion-item class="ion-no-padding">
               <ion-icon name="cart" slot="start"></ion-icon>
-              <ion-label>No of Trolley<br /><span>13</span></ion-label>
+              <ion-label>No of Trolley<br /><span>{{ _count1 }}</span></ion-label>
             </ion-item>
             <ion-item class="ion-no-padding">
               <ion-icon name="albums" slot="start"></ion-icon>
-              <ion-label>Quantity<br /><span>36</span></ion-label>
+              <ion-label>Quantity<br /><span>{{ _ovenDryQuan }}</span></ion-label>
             </ion-item>
             <ion-item class="ion-no-padding">
               <ion-icon name="hourglass" slot="start"></ion-icon>

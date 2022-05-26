@@ -9,11 +9,11 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { ReportPageComponent } from './report-page/report-page.component';
+
 
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, ReportPageComponent],
+  declarations: [AppComponent, LoginComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, ReactiveFormsModule, FormsModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

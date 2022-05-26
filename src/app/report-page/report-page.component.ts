@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import * as moment from 'moment';
+import { LoadingService } from '../services/loading.service';
+import { NotificationService } from '../services/toast.service';
+import { saveAs } from 'file-saver';
 
 
 
@@ -12,7 +15,9 @@ import * as moment from 'moment';
 export class ReportPageComponent implements OnInit {
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private toast: NotificationService,
+    private loadingService: LoadingService
   ) {
     this.loadReport();
     this.counter();
@@ -27,8 +32,23 @@ export class ReportPageComponent implements OnInit {
   _a: any
   statusAir: any
   statusOven: any
+  user: string = null
+  process: string = null
+  from: string = moment().format();
+  to: string = moment().format();
+
   loadReport() {
-    this.apiService.trayDetails().subscribe(data => {
+
+    let payload = {
+      'fromDate': new Date(this.from),
+      'toDate': new Date(this.to),
+      'user': this.user,
+      'process': this.process
+    }
+
+    this.loadingService.show();
+    this.apiService.filterItem(payload).subscribe(data => {
+      this.loadingService.hide();
       this._trayDetails = data
       console.log(typeof (this._trayDetails), "hello")
 
@@ -37,18 +57,22 @@ export class ReportPageComponent implements OnInit {
         if (this._trayDetails[i].process == 'Air Dry') {
 
           this._a = moment(this._test).add(1, 'days').format('MMMM Do YY, h:mm:ss a');
-          if (this._a == moment(this._test).add(1, 'days').format('MMMM Do YYYY, h:mm:ss a')) {
+          if (this._test == this._a) {
             this.statusAir = "completed";
             console.log(this.statusAir, "air")
+          }
+          else {
+            this.statusAir = "In Process";
           }
           this._count.push(this._a)
         }
         else if (this._trayDetails[i].process == 'Oven Dry') {
           this._a = moment(this._test).add(2, 'days').format('MMMM Do YYYY, h:mm:ss a');
-          if (this._a == moment(this._test).format('MMMM Do YYYY, h:mm:ss a')) {
-
+          if (this._a == this._a) {
             this.statusOven = "completed";
-            console.log(this.statusOven, "air")
+          }
+          else {
+            this.statusOven = "In Process";
           }
           this._count.push(this._a)
         }
@@ -56,16 +80,35 @@ export class ReportPageComponent implements OnInit {
     })
   }
 
+  generateExcel() {
+    let payload = {
+      'fromDate': new Date(this.from),
+      'toDate': new Date(this.to),
+      'user': this.user,
+      'process': this.process
+    }
+
+    this.apiService.getExcelReport(payload).subscribe(response => {
+      const file = new Blob([response.body], { type: 'application/xlsx' });
+      const fileName = `${moment().format('YYYY-MM-DDTHH:mm')}_TopGlove_Tracker.xlsx`;
+      this.loadingService.hide();
+      saveAs(file, fileName);
+    }, (error) => {
+      this.toast.error("Please try again later.");
+      this.loadingService.hide();
+    });
+  }
+
   _hour: any
   _minutes: any
   _sec: any
 
-  counter()  {
-    let eventTime:any = 54545454988;
+  counter() {
+    let eventTime: any = this._test;
     console.log(eventTime, "eventtime")
-    let currentTime:any = 55686533;
-    let diffTime:any = eventTime - currentTime;
-    let duration:any =  moment.duration(diffTime * 1000, 'milliseconds');
+    let currentTime: any = 55686533;
+    let diffTime: any = eventTime - currentTime;
+    let duration: any = moment.duration(diffTime * 1000, 'milliseconds');
     let interval = 1000;
 
     let final = setInterval(async () => {
@@ -74,7 +117,6 @@ export class ReportPageComponent implements OnInit {
       this._minutes = result.minutes();
       this._sec = result.seconds();
     }, interval);
-
 
   }
 }
