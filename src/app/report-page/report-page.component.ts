@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { LoadingService } from '../services/loading.service';
 import { NotificationService } from '../services/toast.service';
 import { saveAs } from 'file-saver';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 
@@ -17,10 +18,12 @@ export class ReportPageComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private toast: NotificationService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private fb: FormBuilder
   ) {
     this.loadReport();
     this.counter();
+    this.generateInputForm();
 
   }
 
@@ -119,4 +122,49 @@ export class ReportPageComponent implements OnInit {
     }, interval);
 
   }
+
+  // for edit pop modal
+
+  dateValue1: any;
+  dateValue2: any;
+  dateformate: string;
+  isReOven:any;
+
+  inputForm: FormGroup;
+
+  isSuperUser:any
+  view:boolean
+
+  formatDate(params: any) {
+    return params
+  }
+
+  generateInputForm = () => {
+
+     this.isSuperUser = localStorage.getItem('isSuperUser')
+     
+
+    this.inputForm = this.fb.group({
+      formerType: [''],
+      noOfFormer: [''],
+      batchNo: [''],
+      process: [''],
+      dateTime: [''],
+      status: [''],
+      user: [''],
+      additionalInfo: [''],
+    });
+  }
+
+  uploadEntity() {
+    this.apiService.insertEntity(this.inputForm.value).subscribe(data => {
+      this.toast.success('Submitted Successfully');
+      this.inputForm.reset();
+    });
+
+    // edit pop modal ends
+    
+  }
+
+
 }

@@ -50,18 +50,7 @@ export class InputComponent implements OnInit {
       status: [''],
       user: [''],
       additionalInfo: [''],
-    })
-
-    // date: String = this.inputForm.value.datTime.toUTCString();
-
-    // "formerType": "string",
-    // "noOfFormer": "string",
-    // "batchNo": "string",
-    // "dataTime": "2022-05-23T06:21:24.631Z",
-    // "user": "string",
-    // "proces": "string",
-    // "status": "string",
-    // "additionalInfo": "string"
+    });
   }
 
   uploadEntity() {

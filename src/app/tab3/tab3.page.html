@@ -52,59 +52,58 @@
 
       <!-- modal content -->
       <div *ngFor="let item of _data; let i = index;">
-        <ion-modal [isOpen]="view" trigger="trigger-button{{i}}">
-          <ng-template>
-            <ion-content>
-              <ion-grid>
-                <form (ngSubmit)="updateUser()" [formGroup]="updateUserForm">
+      <ion-modal [isOpen]="view" trigger="trigger-button{{i}}">
+        <ng-template>
+          <ion-content>
+            <ion-grid>
+              <form (ngSubmit)="updateUser()" [formGroup]="updateUserForm">
+                <div>
+                  <ion-row>
+                    <ion-col>
+                      <ion-item>
+                        <ion-label position="stacked">user Id</ion-label>
+                        <ion-input name="name" [(ngModel)]="item.userId" formControlName="userId" placeholder="02">
+                        </ion-input>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
                   <ion-row>
                     <ion-col>
                       <ion-item>
                         <ion-label position="stacked">Name:</ion-label>
-                        <ion-input [value]="item.userName" formControlName="userName" (change)="doChange($event)"
-                          placeholder="Finn"></ion-input>
+                        <ion-input [(ngModel)]="item.userName" formControlName="createdBy" placeholder=" Finn"></ion-input>
                       </ion-item>
                     </ion-col>
                     <ion-col class="ion-align-self-center">
                       <ion-item>
                         <ion-label>Role</ion-label>
-                        <ion-select [value]=" item.role" (change)="doChange($event)" okText="Okay" cancelText="Dismiss">
+                        <ion-select [(ngModel)]="item.role" formControlName="role" okText="Okay" cancelText="Dismiss">
                           <ion-select-option value="Admin">Admin</ion-select-option>
                           <ion-select-option value="operator">operator</ion-select-option>
                         </ion-select>
                       </ion-item>
                     </ion-col>
                   </ion-row>
-
                   <ion-row>
                     <ion-col>
                       <ion-item>
                         <ion-label position="stacked">Username</ion-label>
-                        <ion-input [value]=" item.userName" formControlName="userName" placeholder="Finn Axe">
+                        <ion-input [(ngModel)]="item.userName" formControlName="userName" placeholder="Finn Axe">
                         </ion-input>
                       </ion-item>
                     </ion-col>
-                    <ion-col>
-                      <ion-item>
-                        <ion-label position="stacked">Password</ion-label>
-                        <ion-input [value]=" item.password" id="open-date-input-1" formControlName="password"
-                          placeholder="******"></ion-input>
-                      </ion-item>
-                    </ion-col>
                   </ion-row>
-                  <!-- <ion-row>
-                    <ion-col>
-                      <ion-item>
-                        <ion-label position="stacked">User Id</ion-label>
-                        <ion-input formControlName="userId" placeholder="Finn27"></ion-input>
-                      </ion-item>
-                    </ion-col>
-                  </ion-row> -->
+                  <ion-col>
+                    <ion-item>
+                      <ion-label position="stacked">Password</ion-label>
+                      <ion-input [(ngModel)]="item.password" formControlName="password" placeholder="******"></ion-input>
+                    </ion-item>
+                  </ion-col>
                   <ion-row>
                     <ion-col>
                       <ion-item>
                         <ion-label position="stacked">Email Id</ion-label>
-                        <ion-input [value]=" item.emailId" (change)="doChange($event)" placeholder="Finn@mail.com">
+                        <ion-input [(ngModel)]="item.emailId" formControlName="emailId" placeholder="Finn@mail.com">
                         </ion-input>
                       </ion-item>
                     </ion-col>
@@ -113,8 +112,7 @@
                     <ion-col>
                       <ion-item>
                         <ion-label position="stacked">Additional Info</ion-label>
-                        <ion-textarea [value]=" item.additionalInfo" (change)="doChange($event)"
-                          placeholder="Enter more information here...">
+                        <ion-textarea [(ngModel)]="item.AdditionalInfo" formControlName="additionalInfo" placeholder="Enter more information here...">
                         </ion-textarea>
                       </ion-item>
                     </ion-col>
@@ -127,56 +125,28 @@
                       <ion-button type="submit" class="dbutton" expand="block">Create!</ion-button>
                     </ion-col>
                   </ion-row>
-                </form>
-              </ion-grid>
-            </ion-content>
-          </ng-template>
-        </ion-modal>
+                </div>
+              </form>
+            </ion-grid>
+          </ion-content>
+        </ng-template>
+      </ion-modal>
       </div>
+      <!-- modal data ends -->
 
-      <!-- <ion-item-sliding>
-        <ion-item>
-          <ion-label>Luke<br /><span>Operator</span></ion-label>
-        </ion-item>
-        <ion-item-options>
-          <ion-item-option color="primary">
-            <ion-icon slot="start" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-            More
-          </ion-item-option>
-          <ion-item-option color="danger">
-            <ion-icon slot="start" name="archive"></ion-icon>
-            Delete
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
-      <ion-item-sliding>
-        <ion-item>
-          <ion-label>Pokemon<br /><span>Operator</span></ion-label>
-        </ion-item>
-        <ion-item-options>
-          <ion-item-option color="primary">
-            <ion-icon slot="start" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
-            More
-          </ion-item-option>
-          <ion-item-option color="danger">
-            <ion-icon slot="start" name="archive"></ion-icon>
-            Delete
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>  -->
-
+      <!-- user ui card -->
       <ion-grid>
         <ion-row>
-          <ion-col *ngFor="let item of _data; let i = index;" size="4">
+          <ion-col *ngFor="let item of _data; let i = index" size="4">
             <ion-card>
               <ion-card-header>
                 <ion-text color="primary">
-                  <h3>{{ item.userName }}</h3>
+                  <h3> {{item.userName}} </h3>
                 </ion-text>
                 <ion-card-subtitle style="text-decoration: none;">
-                  {{ item.role }}<br />
-                  {{ item.userName }}<br />
-                  {{ item.emailId }}
+                  {{item.role }}<br />
+                  {{item.userName}} <br />
+                  {{item.emailId}}
                 </ion-card-subtitle>
                 <ion-row class="ion-no-padding ion-no-margin">
                   <ion-col class="ion-no-padding ion-no-margin">
@@ -191,19 +161,11 @@
                   </ion-col>
                 </ion-row>
               </ion-card-header>
-
             </ion-card>
           </ion-col>
-
         </ion-row>
       </ion-grid>
-
-
-
-
-
-
-
+      <!-- user ui card ends -->
     </div>
 
   </ion-list>

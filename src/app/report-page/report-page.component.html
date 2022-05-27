@@ -2,7 +2,7 @@
   <ion-row class="filterpanel ion-align-item-center ion-justify-content-center">
     <ion-col size="2.5">
       <ion-item lines="none">
-        <ion-label position="stacked">Start date & Time</ion-label>
+        <ion-label position="stacked">Start date</ion-label>
         <ion-input id="open-date-input-1" [(ngModel)]="from"></ion-input>
         <ion-popover trigger="open-date-input-1" show-backdrop="true">
           <ng-template>
@@ -14,7 +14,7 @@
     </ion-col>
     <ion-col size="2.5">
       <ion-item lines="none">
-        <ion-label position="stacked">end date & Time</ion-label>
+        <ion-label position="stacked">end date</ion-label>
         <ion-input id="open-date-input-2" [(ngModel)]="to"></ion-input>
         <ion-popover trigger="open-date-input-2" show-backdrop="true">
           <ng-template>
@@ -85,39 +85,153 @@
         Function
       </ion-col>
     </ion-row>
-    <ion-row class="ion-align-items-center" *ngFor="let item of _trayDetails; let i = index;">
-      <ion-col size=".5">
-        {{ item.userId }}
-      </ion-col>
-      <ion-col size="1.5">
-        {{ item.batchNo }}
-      </ion-col>
-      <ion-col size="2">
-        {{ item.dateTime }}
-      </ion-col>
-      <ion-col size="2">
-        {{ _count[i] }}
-      </ion-col>
-      <ion-col size="1">
-        {{ _hour }} : {{ _minutes }} : {{ _sec }}
-      </ion-col>
-      <ion-col size="2">
-        {{ item.user }}
-      </ion-col>
-      <ion-col size="2">
-        <ion-chip color="success">
-          <ion-label color="success" *ngIf="item.process == 'Air Dry'">{{ statusAir }}</ion-label>
-          <ion-label color="succcess" *ngIf="item.process == 'Oven Dry'">{{ statusOven }}</ion-label>
-        </ion-chip>
-      </ion-col>
-      <ion-col size="1">
-        <ion-button size="small" fill="outline">
-          <ion-icon name="color-wand-outline"></ion-icon>
-        </ion-button>
-      </ion-col>
-    </ion-row>
+    <div *ngFor="let item of _trayDetails; let i = index;">
+      <ion-row class="ion-align-items-center">
+        <ion-col size=".5">
+          {{ i + 1 }}
+        </ion-col>
+        <ion-col size="1.5">
+          {{ item.batchNo }}
+        </ion-col>
+        <ion-col size="2">
+          {{ item.dateTime }}
+        </ion-col>
+        <ion-col size="2">
+          {{ _count[i] }}
+        </ion-col>
+        <ion-col size="1">
+          {{ _hour }} : {{ _minutes }} : {{ _sec }}
+        </ion-col>
+        <ion-col size="2">
+          {{ item.user }}
+        </ion-col>
+        <ion-col size="2">
+          <ion-chip color="success">
+            <ion-label color="success" *ngIf="item.process == 'Air Dry'">{{ statusAir }}</ion-label>
+            <ion-label color="succcess" *ngIf="item.process == 'Oven Dry'">{{ statusOven }}</ion-label>
+          </ion-chip>
+        </ion-col>
+        <ion-col size="1">
+          <ion-button id="trigger-button{{i}}" size="small" fill="outline">
+            <ion-icon name="color-wand-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </div>
   </div>
 </ion-grid>
+
+<div *ngFor="let item of _trayDetails; let i = index;">
+  <ion-modal trigger="trigger-button{{i}}">
+    <ng-template>
+      <ion-grid class="ion-no-margin">
+        <form (ngSubmit)="uploadEntity()" [formGroup]="inputForm">
+          <ion-row>
+            <ion-col class="ion-align-self-center">
+              <ion-item lines="none">
+                <ion-label>Former Size</ion-label>
+                <ion-select [(ngModel)]="item.formerType" formControlName="formerType" okText="Okay" cancelText="Dismiss">
+                  <ion-select-option value="XS">XS</ion-select-option>
+                  <ion-select-option value="S">S</ion-select-option>
+                  <ion-select-option value="M">M</ion-select-option>
+                  <ion-select-option value="L">L</ion-select-option>
+                  <ion-select-option value="XL">XL</ion-select-option>
+                  <ion-select-option value="XXL">XXL</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label position="stacked">Quantity</ion-label>
+                <ion-input [(ngModel)]="item.noOfFormer" formControlName="noOfFormer" placeholder="30"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label position="stacked">Trolley No</ion-label>
+                <ion-input [(ngModel)]="item.batchNo" formControlName="batchNo" placeholder="Trolley23"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label position="stacked">Start date & Time</ion-label>
+                <ion-input id="open-date-input-1" formControlName="dateTime" [(ngModel)]="item.dateTime"></ion-input>
+                <ion-popover trigger="open-date-input-1" show-backdrop="true">
+                  <ng-template>
+                    <ion-datetime #popoverDatetime1 presentation="date-time"
+                      (ionChange)="dateValue1 = formatDate(popoverDatetime1.value)"></ion-datetime>
+                  </ng-template>
+                </ion-popover>
+              </ion-item>
+            </ion-col>
+            <ion-col class="ion-align-self-end">
+              <ion-item lines="none">
+                <ion-label position="stacked">Process</ion-label>
+                <ion-select [(ngModel)]="item.process" formControlName="process" interface="popover" placeholder="Air Dry">
+                  <ion-select-option value="Air Dry">Air Dry</ion-select-option>
+                  <ion-select-option value="Oven Dry">Oven Dry</ion-select-option>
+                  <ion-select-option value="ReOven">Re Oven</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row *ngIf="item.process == 'ReOven'">
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label position="stacked">End date & Time</ion-label>
+                <ion-input id="open-date-input-2" formControlName="dateTime" [value]="dateValue2"></ion-input>
+                <ion-popover trigger="open-date-input-2" show-backdrop="true">
+                  <ng-template>
+                    <ion-datetime #popoverDatetime2 presentation="date-time"
+                      (ionChange)="dateValue2 = formatDate(popoverDatetime2.value)"></ion-datetime>
+                  </ng-template>
+                </ion-popover>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label position="stacked">Operator Name</ion-label>
+                <ion-input [(ngModel)]="item.user" formControlName="user" placeholder="Finn"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col class="ion-align-self-end">
+              <ion-item lines="none">
+                <ion-label position="stacked">Shift</ion-label>
+                <ion-select [(ngModel)]="item.status" formControlName="status" interface="popover" placeholder="Shift">
+                  <ion-select-option value="Day">Day</ion-select-option>
+                  <ion-select-option value="Night">Night</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-item lines="none">
+                <ion-label position="stacked">Additional Info</ion-label>
+                <ion-textarea [(ngModel)]="item.additionalInfo" formControlName="additionalInfo" placeholder="Enter more information here...">
+                </ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row class="ion-padding">
+            <ion-col style="padding-right: 21px;">
+              <ion-button type="submit" class="dbutton" expand="block">Submit</ion-button>
+            </ion-col>
+          </ion-row>
+        </form>
+      </ion-grid>
+    </ng-template>
+  </ion-modal>
+</div>
+
 
 <!-- </ion-col>
     </ion-row>
