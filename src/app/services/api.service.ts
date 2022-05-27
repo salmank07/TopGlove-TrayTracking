@@ -42,6 +42,12 @@ export class ApiService {
     return this.http.post(url, params);
   }
 
+  updateEntity = (params: any): Observable<any> => {
+    const url = this.getInputApiUrl('UpdateTrayDetail');
+    return this.http.put(url, params);
+  }
+
+
   trayDetails = (): Observable<any> => {
     const url = this.getInputApiUrl('GetTrayDetails');
     return this.http.get(url);

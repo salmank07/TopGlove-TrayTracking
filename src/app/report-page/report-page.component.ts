@@ -5,6 +5,7 @@ import { LoadingService } from '../services/loading.service';
 import { NotificationService } from '../services/toast.service';
 import { saveAs } from 'file-saver';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 
 
 
@@ -19,7 +20,8 @@ export class ReportPageComponent implements OnInit {
     private apiService: ApiService,
     private toast: NotificationService,
     private loadingService: LoadingService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private modalController: ModalController
   ) {
     this.loadReport();
     this.counter();
@@ -48,12 +50,13 @@ export class ReportPageComponent implements OnInit {
       'user': this.user,
       'process': this.process
     }
-
+    let testtime = moment(this.from).second()
+    console.log(testtime, "time")
     this.loadingService.show();
     this.apiService.filterItem(payload).subscribe(data => {
       this.loadingService.hide();
       this._trayDetails = data
-      console.log(typeof (this._trayDetails), "hello")
+      console.log(typeof (this._trayDetails.dateTime), "hello")
 
       for (let i = 0; i < this._trayDetails.length; i++) {
         this._test = this._trayDetails[i].dateTime;
@@ -152,14 +155,17 @@ export class ReportPageComponent implements OnInit {
       dateTime: [''],
       status: [''],
       user: [''],
-      additionalInfo: [''],
+      userId: [''],
+      additionalInfo: ['']
     });
   }
 
   uploadEntity() {
-    this.apiService.insertEntity(this.inputForm.value).subscribe(data => {
+    this.apiService.updateEntity(this.inputForm.value).subscribe(data => {
       this.toast.success('Submitted Successfully');
       this.inputForm.reset();
+      this.modalController.dismiss();
+      window.location.reload();
     });
 
     // edit pop modal ends
