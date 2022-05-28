@@ -23,16 +23,27 @@ export class ReportPageComponent implements OnInit {
     private fb: FormBuilder,
     private modalController: ModalController
   ) {
-    this.loadReport();
-    this.counter();
-    this.generateInputForm();
 
+    this.loadReport();
+    this.generateInputForm();
+    // this.userList();
   }
 
   ngOnInit() { }
 
   _trayDetails: any
   _count: string[] = [];
+
+  pView: any[] = [];
+
+  _userList: Array<string>[] = [];
+
+  _hour: any[] = [];
+  _minutes: any[] = [];
+  _sec: any[] = [];
+
+  _userList1: any[] = [];
+
   _test: any
   _a: any
   statusAir: any
@@ -42,48 +53,129 @@ export class ReportPageComponent implements OnInit {
   from: string = moment().format();
   to: string = moment().format();
 
-  loadReport() {
 
+  currentUser: string = localStorage.getItem('userName')
+  superUser: string = localStorage.getItem('isSuperUser')
+  role:string = localStorage.getItem('Role')
+
+  loadReport() {
+    
     let payload = {
       'fromDate': new Date(this.from),
       'toDate': new Date(this.to),
       'user': this.user,
       'process': this.process
     }
-    let testtime = moment(this.from).second()
-    console.log(testtime, "time")
+    
     this.loadingService.show();
-    this.apiService.filterItem(payload).subscribe(data => {
+    this.apiService.filterItem(payload).subscribe(data => {       //***api call***
+
       this.loadingService.hide();
+
       this._trayDetails = data
-      console.log(typeof (this._trayDetails.dateTime), "hello")
+      this.pView = [];
 
       for (let i = 0; i < this._trayDetails.length; i++) {
         this._test = this._trayDetails[i].dateTime;
-        if (this._trayDetails[i].process == 'Air Dry') {
+        // timer function
+        let convr = moment(this._test).valueOf()
+        if (this._trayDetails[i].process == 'Air Dry' && this.superUser == 'true') {
+          this._a = moment(this._test).add(1, 'days').format('');
 
-          this._a = moment(this._test).add(1, 'days').format('MMMM Do YY, h:mm:ss a');
-          if (this._test == this._a) {
-            this.statusAir = "completed";
-            console.log(this.statusAir, "air")
+          {
+            // let conver = moment(this._a).valueOf();
+            // let eventTime: any = conver;
+            // let currentTime: any = convr;
+            // let diffTime: any = eventTime - currentTime;
+            // let duration: any = moment.duration(diffTime * 1000, 'milliseconds');
+            // let interval = 1000;
+
+            // setInterval(() => {
+            //   let result = moment.duration(duration - interval, 'milliseconds');
+            //   this._hour.push(result.hours());
+            //   this._minutes.push(result.minutes());
+            //   this._sec.push(result.seconds());
+            // }, interval);
           }
-          else {
-            this.statusAir = "In Process";
-          }
+
+          //   {
+          //   if (this._test == this._a) {
+          //     this.statusAir = "completed";
+          //     console.log(this.statusAir, "air")
+          //   }
+          //   else {
+          //     this.statusAir = "In Process";
+          //   }
+          // }
+          this.pView.push(this._trayDetails[i])
           this._count.push(this._a)
         }
-        else if (this._trayDetails[i].process == 'Oven Dry') {
-          this._a = moment(this._test).add(2, 'days').format('MMMM Do YYYY, h:mm:ss a');
-          if (this._a == this._a) {
-            this.statusOven = "completed";
+        else if (this._trayDetails[i].process == 'Air Dry' && this.superUser == 'false') {
+            if (this._trayDetails[i].user == this.currentUser) {
+              
+              this.pView.push(this._trayDetails[i])
           }
-          else {
-            this.statusOven = "In Process";
+        }
+        else if (this._trayDetails[i].process == 'Oven Dry' && this.superUser == 'true') {
+          this._a = moment(this._test).add(2, 'days').format('');
+
+          {
+            //   let conver = moment(this._a).valueOf();
+            //   let eventTime: any = conver;
+            //   let currentTime: any = convr;
+            //   let diffTime: any = eventTime - currentTime;
+            //   let duration: any = moment.duration(diffTime * 1000, 'milliseconds');
+            //   let interval = 1000;
+            //   setInterval(() => {
+            //     let result = moment.duration(duration - interval, 'milliseconds');
+            //     this._hour.push(result.hours());
+            //     this._minutes.push(result.minutes());
+            //     this._sec.push(result.seconds());
+            //   });
           }
+
+          {
+            // if (this._a == this._a) {
+            //   this.statusOven = "completed";
+            // }
+            // else {
+            //   this.statusOven = "In Process";
+            // }
+          }
+
+          this.pView.push(this._trayDetails[i])
           this._count.push(this._a)
+          console.log(this._hour, "hour")
+        }
+        else if (this._trayDetails[i].process == 'Oven Dry' && this.superUser == 'false') {
+            if (this._trayDetails[i].user == this.currentUser) {
+              
+              this.pView.push(this._trayDetails[i])
+          }
         }
       }
-    })
+    });
+    console.log(this.pView, "sepaarate")
+    this.userList();
+    
+  }
+
+  userList() {
+    let payload = {
+      'fromDate': new Date(this.from),
+      'toDate': new Date(this.to),
+      'user': this.user,
+      'process': this.process
+    }
+
+    this.apiService.filterItem(payload).subscribe(data => {
+      let count: any[] = []
+      for (let i = 0; i < data.length; i++) {
+        count.push(data[i].user)
+      }
+      let removed = [...new Set(count)];
+      this._userList = removed;
+    });
   }
 
   generateExcel() {
@@ -93,7 +185,6 @@ export class ReportPageComponent implements OnInit {
       'user': this.user,
       'process': this.process
     }
-
     this.apiService.getExcelReport(payload).subscribe(response => {
       const file = new Blob([response.body], { type: 'application/xlsx' });
       const fileName = `${moment().format('YYYY-MM-DDTHH:mm')}_TopGlove_Tracker.xlsx`;
@@ -105,48 +196,20 @@ export class ReportPageComponent implements OnInit {
     });
   }
 
-  _hour: any
-  _minutes: any
-  _sec: any
-
-  counter() {
-    let eventTime: any = this._test;
-    console.log(eventTime, "eventtime")
-    let currentTime: any = 55686533;
-    let diffTime: any = eventTime - currentTime;
-    let duration: any = moment.duration(diffTime * 1000, 'milliseconds');
-    let interval = 1000;
-
-    let final = setInterval(async () => {
-      let result = moment.duration(duration - interval, 'milliseconds');
-      this._hour = result.hours();
-      this._minutes = result.minutes();
-      this._sec = result.seconds();
-    }, interval);
-
-  }
-
   // for edit pop modal
 
   dateValue1: any;
   dateValue2: any;
   dateformate: string;
-  isReOven:any;
-
+  isReOven: any;
   inputForm: FormGroup;
-
-  isSuperUser:any
-  view:boolean
+  view: boolean
 
   formatDate(params: any) {
     return params
   }
 
   generateInputForm = () => {
-
-     this.isSuperUser = localStorage.getItem('isSuperUser')
-     
-
     this.inputForm = this.fb.group({
       formerType: [''],
       noOfFormer: [''],
@@ -165,12 +228,9 @@ export class ReportPageComponent implements OnInit {
       this.toast.success('Submitted Successfully');
       this.inputForm.reset();
       this.modalController.dismiss();
-      window.location.reload();
+      this.loadReport();
     });
-
-    // edit pop modal ends
-    
   }
-
+  // edit pop modal ends
 
 }

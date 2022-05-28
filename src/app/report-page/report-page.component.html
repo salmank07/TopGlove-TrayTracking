@@ -27,19 +27,27 @@
     <ion-col size="2.5" class="ion-align-self-center ion-justify-content-center">
       <ion-item class="ion-no-padding" lines="none">
         <ion-label>User</ion-label>
-        <ion-select [(ngModel)]="user" class="ion-no-padding" interface="popover" placeholder="Select One">
-          <ion-select-option value="Finn">Finn</ion-select-option>
-          <ion-select-option value="Bob">Bob</ion-select-option>
-          <ion-select-option value="Ray">Ray</ion-select-option>
-          <ion-select-option value="Alex">Alex</ion-select-option>
-          <ion-select-option value="Geetha">Geetha</ion-select-option>
-        </ion-select>
+        <div *ngIf="superUser == 'false'">
+          <ion-select [(ngModel)]="currentUser" class="ion-no-padding" interface="popover" placeholder="Select One">
+            <ion-select-option value="{{ currentUser }}">{{ currentUser }}</ion-select-option>
+          </ion-select>
+        </div>
+        <div *ngIf="superUser == 'true'">
+          <ion-select [(ngModel)]="user" class="ion-no-padding" interface="popover" placeholder="Select One">
+            <ion-select-option value="">All</ion-select-option>
+            <ion-select-option *ngFor="let displayUser of _userList" [value]="displayUser">{{ displayUser }}
+            </ion-select-option>
+          </ion-select>
+        </div>
+
+
       </ion-item>
     </ion-col>
     <ion-col size="2.5" class="ion-align-self-center ion-justify-content-center">
       <ion-item class="ion-no-padding" lines="none">
         <ion-label>process</ion-label>
         <ion-select [(ngModel)]="process" class="ion-no-padding" interface="popover" placeholder="Select One">
+          <ion-select-option value="">All</ion-select-option>
           <ion-select-option value="Air Dry">Air Dry</ion-select-option>
           <ion-select-option value="Oven Dry">Oven Dry</ion-select-option>
         </ion-select>
@@ -85,7 +93,7 @@
         Function
       </ion-col>
     </ion-row>
-    <div *ngFor="let item of _trayDetails; let i = index;">
+    <div *ngFor="let item of pView; let i = index;">
       <ion-row class="ion-align-items-center">
         <ion-col size=".5">
           {{ i + 1 }}
@@ -100,7 +108,7 @@
           {{ _count[i] }}
         </ion-col>
         <ion-col size="1">
-          {{ _hour }} : {{ _minutes }} : {{ _sec }}
+          {{ _hour[i] }} : {{ _minutes[i] }} : {{ _sec[i] }}
         </ion-col>
         <ion-col size="2">
           {{ item.user }}
@@ -122,7 +130,7 @@
   </div>
 </ion-grid>
 
-<div *ngFor="let item of _trayDetails; let i = index;">
+<div *ngFor="let item of pView; let i = index;">
   <ion-modal trigger="trigger-button{{i}}">
     <ng-template>
       <ion-grid class="ion-no-margin">
@@ -131,7 +139,8 @@
             <ion-col class="ion-align-self-center">
               <ion-item lines="none">
                 <ion-label>Former Size</ion-label>
-                <ion-select [(ngModel)]="item.formerType" formControlName="formerType" okText="Okay" cancelText="Dismiss">
+                <ion-select [(ngModel)]="item.formerType" formControlName="formerType" okText="Okay"
+                  cancelText="Dismiss">
                   <ion-select-option value="XS">XS</ion-select-option>
                   <ion-select-option value="S">S</ion-select-option>
                   <ion-select-option value="M">M</ion-select-option>
@@ -180,7 +189,8 @@
             <ion-col class="ion-align-self-end">
               <ion-item lines="none">
                 <ion-label position="stacked">Process</ion-label>
-                <ion-select [(ngModel)]="item.process" formControlName="process" interface="popover" placeholder="Air Dry">
+                <ion-select [(ngModel)]="item.process" formControlName="process" interface="popover"
+                  placeholder="Air Dry">
                   <ion-select-option value="Air Dry">Air Dry</ion-select-option>
                   <ion-select-option value="Oven Dry">Oven Dry</ion-select-option>
                   <ion-select-option value="ReOven">Re Oven</ion-select-option>
@@ -223,7 +233,8 @@
             <ion-col>
               <ion-item lines="none">
                 <ion-label position="stacked">Additional Info</ion-label>
-                <ion-textarea [(ngModel)]="item.additionalInfo" formControlName="additionalInfo" placeholder="Enter more information here...">
+                <ion-textarea [(ngModel)]="item.additionalInfo" formControlName="additionalInfo"
+                  placeholder="Enter more information here...">
                 </ion-textarea>
               </ion-item>
             </ion-col>

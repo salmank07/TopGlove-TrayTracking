@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ValueAccessor } from '@ionic/angular/directives/control-value-accessors/value-accessor';
 import * as moment from 'moment';
@@ -15,38 +15,37 @@ import { NotificationService } from '../services/toast.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
 
 
   dateValue1: any;
   dateValue2: any;
   dateformate: string;
-  isReOven:any;
+  isReOven: any;
   constructor(
     private apiService: ApiService,
     private fb: FormBuilder,
     private toast: NotificationService,
     private loadingService: LoadingService
   ) {
+    // this.isSuperUser = null;
     this.generateInputForm()
+
+  }
+  ngOnInit(): void {
+
   }
 
   inputForm: FormGroup;
+  view: boolean = false;
+  isSuperUser: any = localStorage.getItem('isSuperUser');
 
-  isSuperUser:any
-  view:boolean
-    
-  
+
   formatDate(params: any) {
     return params
   }
 
   generateInputForm = () => {
-
-    this.isSuperUser = localStorage.getItem('isSuperUser');
-    
-    console.log(this.isSuperUser)
-
     this.inputForm = this.fb.group({
       formerType: [''],
       noOfFormer: [''],
@@ -58,6 +57,7 @@ export class Tab1Page {
       additionalInfo: ['']
     })
 
+
     // date: String = this.inputForm.value.datTime.toUTCString();
 
     // "formerType": "string",
@@ -68,14 +68,19 @@ export class Tab1Page {
     // "proces": "string",
     // "status": "string",
     // "additionalInfo": "string"
+
+
   }
+  // reloadThis() {
+  //   window.location.reload();
+  // }
 
   uploadEntity() {
     this.apiService.insertEntity(this.inputForm.value).subscribe(data => {
       this.toast.success('Submitted Successfully');
       this.inputForm.reset();
     });
-    
+
   }
 
 }

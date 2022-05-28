@@ -80,14 +80,18 @@
       <ion-col size="2.5" class="ion-align-self-center">
         <ion-item class="ion-no-padding">
           <ion-label>User</ion-label>
-          <ion-select [(ngModel)]="user" class="ion-no-padding" interface="popover" placeholder="Select One">
-            <ion-select-option value="">All</ion-select-option>
-            <ion-select-option value="Finn">Finn</ion-select-option>
-            <ion-select-option value="Bob">Bob</ion-select-option>
-            <ion-select-option value="Ray">Ray</ion-select-option>
-            <ion-select-option value="Alex">Alex</ion-select-option>
-            <ion-select-option value="Geetha">Geetha</ion-select-option>
-          </ion-select>
+          <div *ngIf="superUser == 'false'">
+            <ion-select [(ngModel)]="currentUser" class="ion-no-padding" interface="popover" placeholder="Select One">
+              <ion-select-option value="{{ currentUser }}">{{ currentUser }}</ion-select-option>
+            </ion-select>
+          </div>
+          <div *ngIf="superUser == 'true'">
+            <ion-select [(ngModel)]="user" class="ion-no-padding" interface="popover" placeholder="Select One">
+              <ion-select-option value="">All</ion-select-option>
+              <ion-select-option *ngFor="let displayUser of _userList" [value]="displayUser">{{ displayUser }}
+              </ion-select-option>
+            </ion-select>
+          </div>
         </ion-item>
       </ion-col>
       <ion-col size="2.5" class="ion-align-self-center">
@@ -97,6 +101,7 @@
             <ion-select-option value="">All</ion-select-option>
             <ion-select-option value="Air Dry">Air Dry</ion-select-option>
             <ion-select-option value="Oven Dry">Oven Dry</ion-select-option>
+            <ion-select-option value="ReOven">Re Oven</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-col>
@@ -116,11 +121,11 @@
           <ion-card-content>
             <ion-item class="ion-no-padding">
               <ion-icon name="cart" slot="start"></ion-icon>
-              <ion-label>No of Trolley<br /><span>{{ _count }}</span></ion-label>
+              <ion-label>No of Trolley<br /><span>{{ _count || 0 }}</span></ion-label>
             </ion-item>
             <ion-item class="ion-no-padding">
               <ion-icon name="albums" slot="start"></ion-icon>
-              <ion-label>Quantity<br /><span>{{ _airDryQuan }}</span></ion-label>
+              <ion-label>Quantity<br /><span>{{ _airDryQuan || 0}}</span></ion-label>
             </ion-item>
             <ion-item class="ion-no-padding">
               <ion-icon name="hourglass" slot="start"></ion-icon>
@@ -140,11 +145,11 @@
           <ion-card-content>
             <ion-item class="ion-no-padding">
               <ion-icon name="cart" slot="start"></ion-icon>
-              <ion-label>No of Trolley<br /><span>{{ _count1 }}</span></ion-label>
+              <ion-label>No of Trolley<br /><span>{{ _count1 || 0}}</span></ion-label>
             </ion-item>
             <ion-item class="ion-no-padding">
               <ion-icon name="albums" slot="start"></ion-icon>
-              <ion-label>Quantity<br /><span>{{ _ovenDryQuan }}</span></ion-label>
+              <ion-label>Quantity<br /><span>{{ _ovenDryQuan || 0 }}</span></ion-label>
             </ion-item>
             <ion-item class="ion-no-padding">
               <ion-icon name="hourglass" slot="start"></ion-icon>
@@ -166,11 +171,11 @@
           <ion-card-content>
             <ion-item class="ion-no-padding">
               <ion-icon name="cart" slot="start"></ion-icon>
-              <ion-label>Trolley<br /><span>17</span></ion-label>
+              <ion-label>Trolley<br /><span>{{ totalCount }}</span></ion-label>
             </ion-item>
             <ion-item class="ion-no-padding">
               <ion-icon name="albums" slot="start"></ion-icon>
-              <ion-label>Quantity<br /><span>28</span></ion-label>
+              <ion-label>Quantity<br /><span>{{ totalQuantity }}</span></ion-label>
             </ion-item>
           </ion-card-content>
         </ion-card>
@@ -183,12 +188,12 @@
           <ion-card-content>
             <ion-item class="ion-no-padding">
               <ion-icon name="cart" slot="start"></ion-icon>
-              <ion-label>Trolley<br /><span>2</span></ion-label>
+              <ion-label>Trolley<br /><span>{{ _reOvenCount || 0}}</span></ion-label>
               <!-- <ion-button fill="outline" slot="end">View</ion-button> -->
             </ion-item>
             <ion-item class="ion-no-padding">
               <ion-icon name="albums" slot="start"></ion-icon>
-              <ion-label>Quantity<br /><span>20</span></ion-label>
+              <ion-label>Quantity<br /><span>{{ _reOvenQuan || 0 }}</span></ion-label>
               <!-- <ion-button fill="outline" slot="end">View</ion-button> -->
             </ion-item>
           </ion-card-content>

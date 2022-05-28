@@ -68,4 +68,7 @@ export class UserService {
     localStorage.setItem('Role', role);
     this._role = role;
   }
+  reload() {
+    window.location.reload();
+  }
 }

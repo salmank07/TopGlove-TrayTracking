@@ -112,6 +112,10 @@
       </ion-row>
     </form>
   </ion-grid> -->
-  <app-input *ngIf="isSuperUser == 'false'"></app-input>
-  <app-report-page *ngIf="isSuperUser == 'true'"></app-report-page>
+  
+  <app-input *ngIf="isSuperUser == 'false'; else elseBlock"></app-input>
+  <ng-template #elseBlock >
+    <app-report-page></app-report-page>
+  </ng-template>
+  
 </ion-content>
