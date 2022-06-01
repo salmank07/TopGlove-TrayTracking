@@ -42,7 +42,7 @@ export class LoginComponent implements OnInit {
   login() {
     this.loadingService.show();
     this.apiservice.doLogin(this.loginForm.value).subscribe((res) => {
-      this.loadingService.hide();
+      
       if (res) {
         this.userService.User = res.userName;
         this.userService.Role = res.role;

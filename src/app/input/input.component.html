@@ -3,7 +3,7 @@
     <ion-row>
       <ion-col class="ion-align-self-center">
         <ion-item lines="none">
-          <ion-label>Former Size</ion-label>
+          <ion-label position="stacked">Former Size</ion-label>
           <ion-select formControlName="formerType" okText="Okay" cancelText="Dismiss">
             <ion-select-option value="XS">XS</ion-select-option>
             <ion-select-option value="S">S</ion-select-option>
@@ -13,37 +13,53 @@
             <ion-select-option value="XXL">XXL</ion-select-option>
           </ion-select>
         </ion-item>
+        <span class="text-danger" *ngIf="!inputForm.controls['formerType'].valid && 
+        inputForm.controls['formerType']?.touched"> Former Size is required *</span>
       </ion-col>
       <ion-col>
         <ion-item lines="none">
           <ion-label position="stacked">Quantity</ion-label>
           <ion-input formControlName="noOfFormer" placeholder="30"></ion-input>
         </ion-item>
+        <span class="text-danger" *ngIf="!inputForm.controls['noOfFormer'].valid && 
+        inputForm.controls['noOfFormer']?.touched"> Quantity is required *</span>
       </ion-col>
     </ion-row>
 
     <ion-row>
+      <ion-col>
+        <ion-item lines="none">
+          <ion-label position="stacked">Batch No</ion-label>
+          <ion-input formControlName="batchNo" placeholder="Batch No"></ion-input>
+        </ion-item>
+        <span class="text-danger" *ngIf="!inputForm.controls['batchNo'].valid && 
+        inputForm.controls['batchNo']?.touched"> Batch No is required *</span>
+      </ion-col>
       <ion-col>
         <ion-item lines="none">
           <ion-label position="stacked">Trolley No</ion-label>
-          <ion-input formControlName="batchNo" placeholder="Trolley23"></ion-input>
+          <ion-input formControlName="trolleyNo" placeholder="Trolley23"></ion-input>
         </ion-item>
+        <span class="text-danger" *ngIf="!inputForm.controls['trolleyNo'].valid && 
+        inputForm.controls['trolleyNo']?.touched"> Trolley No is required *</span>
       </ion-col>
     </ion-row>
 
     <ion-row>
-      <ion-col>
+      <!-- <ion-col>
         <ion-item lines="none">
           <ion-label position="stacked">Start date & Time</ion-label>
           <ion-input id="open-date-input-1" formControlName="dateTime" [value]="dateValue1"></ion-input>
-          <ion-popover trigger="open-date-input-1" show-backdrop="true">
+          <ion-popover trigger="open-date-input-1">
             <ng-template>
               <ion-datetime #popoverDatetime1 presentation="date-time"
                 (ionChange)="dateValue1 = formatDate(popoverDatetime1.value)"></ion-datetime>
             </ng-template>
           </ion-popover>
+          <span class="text-danger" *ngIf="!inputForm.controls['dateTime'].valid && 
+        inputForm.controls['dateTime']?.touched"> Date is required *</span>
         </ion-item>
-      </ion-col>
+      </ion-col> -->
       <ion-col class="ion-align-self-end">
         <ion-item lines="none">
           <ion-label position="stacked">Process</ion-label>
@@ -53,37 +69,36 @@
             <ion-select-option value="ReOven">Re Oven</ion-select-option>
           </ion-select>
         </ion-item>
+        <span class="text-danger" *ngIf="!inputForm.controls['process'].valid && 
+        inputForm.controls['process']?.touched"> Process is required *</span>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="isReOven == 'ReOven'">
       <ion-col>
-        <ion-item lines="none">
+        <ion-item id="open-date-input-2" lines="none">
           <ion-label position="stacked">End date & Time</ion-label>
-          <ion-input id="open-date-input-2" formControlName="dateTime" [value]="dateValue2"></ion-input>
-          <ion-popover trigger="open-date-input-2" show-backdrop="true">
+          <ion-input   [value]="dateValue2"></ion-input>
+          <ion-popover trigger="open-date-input-2">
             <ng-template>
-              <ion-datetime #popoverDatetime2 presentation="date-time"
+              <ion-datetime formControlName="dateTime" #popoverDatetime2 presentation="date-time"
                 (ionChange)="dateValue2 = formatDate(popoverDatetime2.value)"></ion-datetime>
             </ng-template>
           </ion-popover>
         </ion-item>
+
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-        <ion-item lines="none">
-          <ion-label position="stacked">Operator Name</ion-label>
-          <ion-input formControlName="user" placeholder="Finn"></ion-input>
-        </ion-item>
-      </ion-col>
       <ion-col class="ion-align-self-end">
         <ion-item lines="none">
           <ion-label position="stacked">Shift</ion-label>
-          <ion-select formControlName="status" interface="popover" placeholder="Shift">
+          <ion-select formControlName="shift" interface="popover" placeholder="Shift">
             <ion-select-option value="Day">Day</ion-select-option>
             <ion-select-option value="Night">Night</ion-select-option>
           </ion-select>
         </ion-item>
+        <span class="text-danger" *ngIf="!inputForm.controls['shift'].valid && 
+        inputForm.controls['shift']?.touched"> Shift is required *</span>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -92,11 +107,13 @@
           <ion-label position="stacked">Additional Info</ion-label>
           <ion-textarea formControlName="additionalInfo" placeholder="Enter more information here..."></ion-textarea>
         </ion-item>
+        <span class="text-danger" *ngIf="!inputForm.controls['additionalInfo'].valid && 
+        inputForm.controls['additionalInfo']?.touched"> Additional Info is required *</span>
       </ion-col>
     </ion-row>
     <ion-row class="ion-padding">
       <ion-col style="padding-right: 21px;">
-        <ion-button type="submit" class="dbutton" expand="block">Submit</ion-button>
+        <ion-button type="submit" class="dbutton" [disabled]="!thisFormValid()" expand="block">Submit</ion-button>
       </ion-col>
     </ion-row>
   </form>

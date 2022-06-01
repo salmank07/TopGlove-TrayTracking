@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -20,34 +20,58 @@ export class AdduserComponent implements OnInit {
     private router: Router
 
   ) {
-    this.generateAddUserForm();
+    
    }
 
   ngOnInit() {}
 
-    addUserForm: FormGroup
+  ischeckUser: boolean = true;
+  isShowError: boolean = false;
 
-    generateAddUserForm = () => {
-      this.addUserForm = this.fb.group({
-        createdBy: [''],
-        role: [''],
-        userName: [''],
-        password: [''],
-        userId: [''],
-        emailId: [''],
-        additionalInfo: ['']
-      });
+  addUserForm: FormGroup = this.fb.group({
+    userName: new FormControl('' , Validators.required),
+    createdBy: new FormControl('', Validators.required),
+    role: new FormControl('',Validators.required),
+    password: new FormControl('', Validators.required),
+    emailId: new FormControl('', Validators.required),
+    additionalInfo: new FormControl('', Validators.required),
+  })
+
+    
+    thisFormValid() {
+      if (this.addUserForm.invalid || this.ischeckUser) {
+        return true;
+      }
+      return false;
     }
+  
+    UserValid() {
+      this.isShowError = false
+      this.ischeckUser = true;
+      if (this.f.userName.invalid) {
+        return
+      }
+      this.apiService.checkUser(this.f.userName.value).subscribe(data => {
+        console.log(data, 'User')
+        if (data['message'] == 'You Can Enter') {
+          this.ischeckUser = false
+        } else {
+          this.ischeckUser = true;
+          this.isShowError = true
+  
+        }
+        console.log(data, 'Email')
+  
+      });
+  
+    }
+    get f() { return this.addUserForm.controls; }
 
     uploadUser() {
       this.apiService.addUser(this.addUserForm.value).subscribe(data => {
         this.toast.success('Added Successfully')
         this.addUserForm.reset();
       });
-
-      setInterval(out => {
         this.router.navigate(['/tabs/tab3'])
-      }, 800)
-      
     }
 }

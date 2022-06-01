@@ -3,8 +3,9 @@ ion-item {
     padding-right: 10px;
     margin: 2px;
 }
-ion-input, ion-textarea {
-    background: rgba(0, 0, 0, 0.03);
+ion-input,
+ion-textarea {
+    // background: rgba(0, 0, 0, 0.03);
     border-radius: 10px;
     border: 1px solid rgba(17, 17, 26, 0.2);
     --padding-start: 15px !important;
@@ -19,6 +20,13 @@ ion-label {
 }
 .dbutton {
     background-color: #92b9df;
-    color:#fff;
+    color: #fff;
     border-radius: 10px;
+}
+.text-danger {
+    font-weight: 700;
+    font-size: 13px;
+    color: #f03a3a;
+    margin: 1.5rem;
+    margin-bottom: 0.5rem !important;
 }

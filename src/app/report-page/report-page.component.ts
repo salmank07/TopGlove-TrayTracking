@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service';
+import * as FileSaver from 'file-saver';
 import * as moment from 'moment';
 import { LoadingService } from '../services/loading.service';
 import { NotificationService } from '../services/toast.service';
 import { saveAs } from 'file-saver';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+
 
 
 
@@ -16,6 +18,7 @@ import { ModalController } from '@ionic/angular';
 })
 export class ReportPageComponent implements OnInit {
 
+  date: any;
   constructor(
     private apiService: ApiService,
     private toast: NotificationService,
@@ -26,7 +29,6 @@ export class ReportPageComponent implements OnInit {
 
     this.loadReport();
     this.generateInputForm();
-    // this.userList();
   }
 
   ngOnInit() { }
@@ -52,21 +54,35 @@ export class ReportPageComponent implements OnInit {
   process: string = null
   from: string = moment().format();
   to: string = moment().format();
+  convertedFrom:any
+  convertedTo:any
+  
+  currentdateFrom = moment().format('MMMM Do YYYY');
+  currentdateTo = moment().format('MMMM Do YYYY');
 
+  convert(params: any): string {
+   return   moment(params).format('MMMM Do YYYY, h:mm:ss');
+  }
+
+  filterConvert(params: any): string {
+    return   moment(params).format('MMMM Do YYYY, h:mm:ss');
+   }
 
   currentUser: string = localStorage.getItem('userName')
   superUser: string = localStorage.getItem('isSuperUser')
-  role:string = localStorage.getItem('Role')
+  role: string = localStorage.getItem('Role')
 
   loadReport() {
+
     
+
     let payload = {
       'fromDate': new Date(this.from),
       'toDate': new Date(this.to),
       'user': this.user,
       'process': this.process
     }
-    
+
     this.loadingService.show();
     this.apiService.filterItem(payload).subscribe(data => {       //***api call***
 
@@ -111,15 +127,18 @@ export class ReportPageComponent implements OnInit {
           this._count.push(this._a)
         }
         else if (this._trayDetails[i].process == 'Air Dry' && this.superUser == 'false') {
-            if (this._trayDetails[i].user == this.currentUser) {
-              
-              this.pView.push(this._trayDetails[i])
+          if (this._trayDetails[i].user == this.currentUser) {
+            this._a = moment(this._test).add(1, 'days').format('');
+            this.pView.push(this._trayDetails[i])
+            this._count.push(this._a)
           }
         }
         else if (this._trayDetails[i].process == 'Oven Dry' && this.superUser == 'true') {
           this._a = moment(this._test).add(2, 'days').format('');
 
+
           {
+
             //   let conver = moment(this._a).valueOf();
             //   let eventTime: any = conver;
             //   let currentTime: any = convr;
@@ -148,16 +167,29 @@ export class ReportPageComponent implements OnInit {
           console.log(this._hour, "hour")
         }
         else if (this._trayDetails[i].process == 'Oven Dry' && this.superUser == 'false') {
-            if (this._trayDetails[i].user == this.currentUser) {
-              
-              this.pView.push(this._trayDetails[i])
+          if (this._trayDetails[i].user == this.currentUser) {
+            this._a = moment(this._test).add(2, 'days').format('');
+            this._count.push(this._a)
+            this.pView.push(this._trayDetails[i])
+          }
+        }
+        else if (this._trayDetails[i].process == 'ReOven' && this.superUser == 'true') {
+          this._a = moment(this._test).add(this._test, 'days').format('');
+          this.pView.push(this._trayDetails[i])
+          this._count.push(this._a)
+        }
+        else if (this._trayDetails[i].process == 'ReOven' && this.superUser == 'false') {
+          if (this._trayDetails[i].user == this.currentUser) {
+            this._a = moment(this._test).add(this._test, 'days').format('');
+            this.pView.push(this._trayDetails[i])
+            this._count.push(this._a)
           }
         }
       }
     });
-    console.log(this.pView, "sepaarate")
+    console.log(this.pView, "sepaarate");
+    console.log(this._count, "sepaarate");
     this.userList();
-    
   }
 
   userList() {
@@ -186,10 +218,19 @@ export class ReportPageComponent implements OnInit {
       'process': this.process
     }
     this.apiService.getExcelReport(payload).subscribe(response => {
+      // FileSaver.saveAs(response);
       const file = new Blob([response.body], { type: 'application/xlsx' });
-      const fileName = `${moment().format('YYYY-MM-DDTHH:mm')}_TopGlove_Tracker.xlsx`;
+      const fileName = `${moment().format('YYYY-MM-DD')}.xlsx`;
+      // this.date = new Date();
+      // const latest_date =this.datepipe.transform(this.date, 'yyyy-MM-dd.xlsx');
       this.loadingService.hide();
-      saveAs(file, fileName);
+      // saveAs(file, fileName);
+      // const fileName = `${moment().format('YYYY-MM-DD')}TopGlove.xlsx`;
+      FileSaver.saveAs(file, fileName);
+      // const fileName = `topglove.xlsx`;
+      // this.loadingService.hide();
+      // saveAs();
+      // FileSaver.saveAs(file, fileName);
     }, (error) => {
       this.toast.error("Please try again later.");
       this.loadingService.hide();

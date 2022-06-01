@@ -26,7 +26,7 @@ export class ApiService {
     const url = this.getUserApiUrl('GetLogin');
     return this.http.post(url, params);
   }
-  
+
   logout = () => {
     localStorage.removeItem('userName');
     localStorage.removeItem('isSuperUser');
@@ -58,15 +58,10 @@ export class ApiService {
     return this.http.post(url, params);
   }
 
-  getExcelReport = (params: any): Observable<HttpResponse<ArrayBuffer>> => {
+  getExcelReport = (params: any): Observable<any> => {
     const url = this.getInputApiUrl('GenerateExcel');
-    return this.http.post(url, params, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/octet-stream',
-        'Accept': 'application/octet-stream',
-      }),
-      observe: 'response',
-      responseType: 'arraybuffer'
+    return this.http.post(url, params, {     
+      responseType: 'blob'
     });
   }
 
@@ -81,32 +76,15 @@ export class ApiService {
     return this.http.put(url, params);
   }
 
- 
+
   deleteUser = (params: number): Observable<any> => {
     const url = this.getUserApiUrl('DeletUser?id=');
     return this.http.delete(url + params);
   }
 
-  // deleteEntity = (params: any): Observable<any> => {
-  //   const url = this.getInputApiUrl('UpdateTraydetail');
-  //   return this.http.post(url, params);
-  // }
-
-  // filterItem = (params: any): Observable<any> => {
-  //   const url = this.getInputApiUrl('FilteredItems');
-  //   return this.http.post(url, params);
-  // }
-
-  // getExcelReport = (params: any): Observable<HttpResponse<ArrayBuffer>> => {
-  //   const url = this.getInputApiUrl('GenerateExcel');
-  //   return this.http.post(url, params, {
-  //     headers: new HttpHeaders({
-  //       'Content-Type': 'application/octet-stream',
-  //       'Accept': 'application/octet-stream',
-  //     }),
-  //     observe: 'response',
-  //     responseType: 'arraybuffer'
-  //   });
-  // }
+  checkUser = (User: any): Observable<any> => {
+    const url = this.getUserApiUrl('UserExist?obj=');
+    return this.http.get(url + User);
+  }
 
 }

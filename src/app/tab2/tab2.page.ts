@@ -44,7 +44,16 @@ export class Tab2Page {
   process: string = null
   from: string = moment().format();
   to: string = moment().format();
-  dateValue1: any = moment(this.from).format("MMM Do YY")
+  convertedFrom: any
+  convertedTo: any
+
+  currentdateFrom = moment().format('MMMM Do YYYY');
+  currentdateTo = moment().format('MMMM Do YYYY');
+
+
+  convert(params: any): string {
+    return moment(params).format('MMMM Do YYYY');
+  }
 
   currentUser: string = localStorage.getItem('userName')
   superUser: string = localStorage.getItem('isSuperUser')
@@ -55,6 +64,10 @@ export class Tab2Page {
     delete this._count1;
     delete this._airDryQuan;
     delete this._ovenDryQuan
+    delete this.totalCount;
+    delete this.totalQuantity;
+    delete this._reOvenQuan;
+    delete this._reOvenCount;
 
     let payload = {
       'fromDate': new Date(this.from),
@@ -64,9 +77,10 @@ export class Tab2Page {
     }
     this.loadingService.show();
     this.apiService.filterItem(payload).subscribe(data => {
-
+      this.loadingService.hide();
       this._traydetails = data
       console.log(this._traydetails)
+
       let airTrolleycount: number = 0;
       let OvenTrolleycount: number = 0;
 
@@ -74,7 +88,7 @@ export class Tab2Page {
       let reOvenTrolleycount: number = 0;
       let releasedTrolleycount1: number = 0;
       let releasedTrolleycount2: number = 0;
-      
+
 
       let quantity: number = 0;
       let test: number = 0;
@@ -97,7 +111,7 @@ export class Tab2Page {
 
 
       for (let i = 0; i < this._traydetails.length; i++) {
-        if (this._traydetails[i].process == "Air Dry") {
+        if (this._traydetails[i].process == "Air Dry" && this.superUser == 'true') {
           if (this._traydetails[i].status == "Completed") {
             releasedTrolleycount += 1;
             quantity2 = this._traydetails[i].noOfFormer
@@ -112,7 +126,24 @@ export class Tab2Page {
             this._count = airTrolleycount;
           }
         }
-        else if (this._traydetails[i].process == "Oven Dry") {
+        else if (this._traydetails[i].process == "Air Dry" && this.superUser == 'false') {
+          if (this._traydetails[i].user == this.currentUser) {
+            if (this._traydetails[i].status == "Completed") {
+              releasedTrolleycount += 1;
+              quantity2 = this._traydetails[i].noOfFormer
+              test2 = test2 + +quantity2
+              this._releasedQuan = test2
+              this._releasedCount = releasedTrolleycount;
+            } else {
+              airTrolleycount = airTrolleycount + 1;
+              quantity = this._traydetails[i].noOfFormer
+              test = test + +quantity
+              this._airDryQuan = test
+              this._count = airTrolleycount;
+            }
+          }
+        }
+        else if (this._traydetails[i].process == "Oven Dry" && this.superUser == 'true') {
           if (this._traydetails[i].status == "Completed") {
             releasedTrolleycount1 += 1;
             quantity21 = this._traydetails[i].noOfFormer
@@ -127,14 +158,24 @@ export class Tab2Page {
             this._count1 = OvenTrolleycount;
           }
         }
-        // else if (this._traydetails[i].status == "Completed") {
-        //   releasedTrolleycount += 1;
-        //   quantity2 = this._traydetails[i].noOfFormer
-        //   test2 = test2 + +quantity2
-        //   this._releasedQuan = test2
-        //   this._releasedCount = releasedTrolleycount;
-        // }
-        else if (this._traydetails[i].process == "ReOven") {
+        else if (this._traydetails[i].process == "Oven Dry" && this.superUser == 'false') {
+          if (this._traydetails[i].user == this.currentUser) {
+            if (this._traydetails[i].status == "Completed") {
+              releasedTrolleycount1 += 1;
+              quantity21 = this._traydetails[i].noOfFormer
+              test21 = test21 + +quantity21
+              this._releasedQuan1 = test21
+              this._releasedCount1 = releasedTrolleycount1;
+            } else {
+              OvenTrolleycount = OvenTrolleycount + 1;
+              quantity1 = this._traydetails[i].noOfFormer
+              test1 = test1 + +quantity1
+              this._ovenDryQuan = test1
+              this._count1 = OvenTrolleycount;
+            }
+          }
+        }
+        else if (this._traydetails[i].process == "ReOven" && this.superUser == 'true') {
           if (this._traydetails[i].status == "Completed") {
             releasedTrolleycount2 += 1;
             quantity22 = this._traydetails[i].noOfFormer
@@ -149,14 +190,28 @@ export class Tab2Page {
             this._reOvenCount = reOvenTrolleycount;
           }
         }
+        else if (this._traydetails[i].process == "ReOven" && this.superUser == 'false') {
+          if (this._traydetails[i].user == this.currentUser) {
+            if (this._traydetails[i].status == "Completed") {
+              releasedTrolleycount2 += 1;
+              quantity22 = this._traydetails[i].noOfFormer
+              test22 = test22 + +quantity22
+              this._releasedQuan2 = test22
+              this._releasedCount2 = releasedTrolleycount2;
+            } else {
+              reOvenTrolleycount += 1;
+              quantity3 = this._traydetails[i].noOfFormer
+              test3 = test3 + +quantity3
+              this._reOvenQuan = test3
+              this._reOvenCount = reOvenTrolleycount;
+            }
+          }
+        }
       }
       this.totalQuantity = this._releasedQuan + this._releasedQuan1 + this._releasedQuan2;
       this.totalCount = this._releasedCount + this._releasedCount1 + this._releasedCount2;
-
-      this.loadingService.hide();
-
-
     })
+    this.userList();
 
   }
 
@@ -176,6 +231,7 @@ export class Tab2Page {
       let removed = [...new Set(count)];
       this._userList = removed;
     });
+    console.log(this._userList, "userlist")
   }
 
 }

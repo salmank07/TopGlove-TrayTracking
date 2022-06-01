@@ -6,6 +6,8 @@ import { LoadingService } from '../services/loading.service';
 import { NotificationService } from '../services/toast.service';
 import { UserService } from '../services/user.service';
 import { ModalController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
+import { AppUpdatorService } from '../services/app-updator.service';
 
 @Component({
   selector: 'app-tab3',
@@ -21,7 +23,8 @@ export class Tab3Page implements OnInit {
     private loadingService: LoadingService,
     private toast: NotificationService,
     private fb: FormBuilder,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private appUpdatorService: AppUpdatorService
   ) {
     this.userdetails();
     this.generateForm();
@@ -33,7 +36,7 @@ export class Tab3Page implements OnInit {
   spec: any
   view: boolean = false;
   updateUserForm: FormGroup
-  
+
 
   ngOnInit(): void {
   }
@@ -60,11 +63,12 @@ export class Tab3Page implements OnInit {
   logout = () => {
     this.apiService.logout();
     this.router.navigate(['./login']);
+    window.location.reload();
   }
 
   generateForm() {
     this.updateUserForm = this.fb.group({
-      createdBy: ['this.userTest'],
+      createdBy: [''],
       role: [''],
       userName: [''],
       password: [''],
@@ -73,7 +77,7 @@ export class Tab3Page implements OnInit {
       additionalInfo: ['']
     });
   }
-  
+
   dismiss() {
     this.modalController.dismiss({
       'dismissed': true
@@ -95,6 +99,12 @@ export class Tab3Page implements OnInit {
       this.userdetails();
       window.location.reload();
     })
+  }
+
+  checkForUpdate = () => {
+    if (environment.production) {
+      this.appUpdatorService.checkIfUpdateExist();
+    }
   }
 }
 

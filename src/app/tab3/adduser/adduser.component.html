@@ -36,14 +36,14 @@
     <form (ngSubmit)="uploadUser()" [formGroup]="addUserForm">
       <ion-row>
         <ion-col>
-          <ion-item>
-            <ion-label position="stacked">Name:</ion-label>
+          <ion-item lines="none">
+            <ion-label position="stacked">Name</ion-label>
             <ion-input formControlName="createdBy" placeholder="Finn"></ion-input>
           </ion-item>
         </ion-col>
-        <ion-col class="ion-align-self-center">
-          <ion-item>
-            <ion-label>Role</ion-label>
+        <ion-col style="margin-top: 1.5rem;" class="ion-align-self-center">
+          <ion-item lines="none">
+            <ion-label position="stacked">Role</ion-label>
             <ion-select okText="Okay" formControlName="role" cancelText="Dismiss">
               <ion-select-option value="Admin">Admin</ion-select-option>
               <ion-select-option value="operator">operator</ion-select-option>
@@ -54,29 +54,32 @@
 
       <ion-row>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Username</ion-label>
-            <ion-input formControlName="userName" placeholder="Finn Axe"></ion-input>
+            <ion-input formControlName="userName" (change)="UserValid()" placeholder="Finn Axe"></ion-input>
           </ion-item>
+          <div class="text-danger" style="margin-top: 2%;" *ngIf="isShowError == true">
+            User <b>Already Exist</b> Enter valid User Name
+          </div>
         </ion-col>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Password</ion-label>
             <ion-input id="open-date-input-1" formControlName="password" placeholder="******"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col>
-          <ion-item>
+        <!-- <ion-col>
+          <ion-item lines="none">
             <ion-label position="stacked">User Id</ion-label>
             <ion-input formControlName="userId" placeholder="Finn27"></ion-input>
           </ion-item>
-        </ion-col>
+        </ion-col> -->
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Email Id</ion-label>
             <ion-input formControlName="emailId" placeholder="Finn@mail.com"></ion-input>
           </ion-item>
@@ -84,21 +87,20 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-item>
+          <ion-item lines="none">
             <ion-label position="stacked">Additional Info</ion-label>
             <ion-textarea formControlName="additionalInfo" placeholder="Enter more information here..."></ion-textarea>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col style="padding-left: 21px;">
+        <!-- <ion-col style="padding-left: 21px;">
           <ion-button expand="block" color="medium" fill="outline">Reset</ion-button>
-        </ion-col>
+        </ion-col> -->
         <ion-col style="padding-right: 21px;">
-          <ion-button type="submit" class="dbutton" expand="block">Create!</ion-button>
+          <ion-button type="submit" class="dbutton" [disabled]="thisFormValid()" expand="block">Create!</ion-button>
         </ion-col>
       </ion-row>
     </form>
   </ion-grid>
-
 </ion-content>

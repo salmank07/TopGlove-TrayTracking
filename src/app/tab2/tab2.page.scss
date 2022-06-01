@@ -16,13 +16,13 @@ h3 {
     font-weight: bold;
 }
 ion-button {
-    --border-width:1px;
+    --border-width: 1px;
 }
 .header {
     font-weight: 600;
     color: #15133c;
     background: #c4ddff !important;
-    border-radius:10px 10px 0 0 ;
+    border-radius: 10px 10px 0 0;
     padding: 4px 0;
 }
 ion-card {
@@ -33,7 +33,6 @@ ion-card {
 ion-item {
     --inner-border-width: 0;
     padding: 0px !important;
-    
 }
 .nom ion-item {
     --background: #4470d0;
@@ -64,12 +63,13 @@ ion-card-title {
 }
 .nom ion-card {
     margin: 0px !important;
-    background: #3C84F4;
+    background: #3c84f4;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     // box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
     border-radius: 13px;
 }
-.nom ion-card ion-card-title, ion-card-subtitle {
+.nom ion-card ion-card-title,
+ion-card-subtitle {
     color: #fff !important;
 }
 ion-progress-bar {
@@ -85,9 +85,27 @@ ion-progress-bar {
 }
 .filterpanel ion-label {
     padding-left: 12px;
+    margin-bottom: 8px;
+
 }
 .noscss ion-icon {
     padding: 0;
     color: grey;
     border-radius: 0;
+}
+ion-select {
+    width: 100%;
+    justify-content: center;
+}
+ion-select::part(text) {
+    flex: 1 1 100px;
+}
+.filterpanel ion-col ion-item ion-input {
+    cursor: pointer !important;
+}
+.cursor {
+    cursor: pointer !important;
+}
+.native-input {
+    cursor: pointer !important;
 }

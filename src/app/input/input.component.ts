@@ -1,5 +1,6 @@
+import * as moment from 'moment';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../services/api.service';
 import { LoadingService } from '../services/loading.service';
 import { NotificationService } from '../services/toast.service';
@@ -14,9 +15,9 @@ export class InputComponent implements OnInit {
   dateValue1: any;
   dateValue2: any;
   dateformate: string;
-  isReOven:any;
+  isReOven: any;
   ngOnInit(): void {
-    
+
   }
   constructor(
     private apiService: ApiService,
@@ -29,8 +30,10 @@ export class InputComponent implements OnInit {
 
   inputForm: FormGroup;
 
-  isSuperUser:any
-  view:boolean
+  isSuperUser: any
+  view: boolean
+
+  // currentUser: string = localStorage.getItem('userName')
 
   formatDate(params: any) {
     return params
@@ -38,19 +41,29 @@ export class InputComponent implements OnInit {
 
   generateInputForm = () => {
 
-     this.isSuperUser = localStorage.getItem('isSuperUser')
-     
+    this.isSuperUser = localStorage.getItem('isSuperUser')
+    let currentUser: string = localStorage.getItem('userName')
+    let dateNow = moment().format();
 
     this.inputForm = this.fb.group({
-      formerType: [''],
-      noOfFormer: [''],
-      batchNo: [''],
-      process: [''],
-      dateTime: [''],
-      status: [''],
-      user: [''],
-      additionalInfo: [''],
+      formerType: ['', Validators.required],
+      noOfFormer: ['', Validators.required],
+      batchNo: ['', Validators.required],
+      process: ['', Validators.required],
+      dateTime: [dateNow, Validators.required],
+      shift: ['', Validators.required],
+      trolleyNo: ['', Validators.required],
+      user: [currentUser, Validators.required],
+      additionalInfo: ['', Validators.required],
     });
+  }
+
+  thisFormValid() {
+    if (this.inputForm.valid) {
+      return true
+    } else {
+      return false
+    }
   }
 
   uploadEntity() {
@@ -58,6 +71,6 @@ export class InputComponent implements OnInit {
       this.toast.success('Submitted Successfully');
       this.inputForm.reset();
     });
-    
+
   }
 }

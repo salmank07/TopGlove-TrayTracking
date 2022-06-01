@@ -1,11 +1,12 @@
 <ion-content class="ion-padding">
   <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button class="dbutton" (click)="isSuperUser = 'true'" expand="block">report Screen</ion-button>
+    <ion-row class="ion-justify-content-end">
+      <ion-col size="2">
+        <ion-button class="dbutton" expand="full" (click)="isSuperUser = 'true'">Report<ion-icon slot="end" name="enter-outline"></ion-icon>
+          </ion-button>
       </ion-col>
-      <ion-col>
-        <ion-button class="dbutton" (click)="isSuperUser = 'false'" expand="block">Input Screen</ion-button>
+      <ion-col size="2">
+        <ion-button class="dbutton" expand="full" (click)="isSuperUser = 'false'">Input<ion-icon slot="end" name="enter-outline"></ion-icon></ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -112,10 +113,10 @@
       </ion-row>
     </form>
   </ion-grid> -->
-  
+
   <app-input *ngIf="isSuperUser == 'false'; else elseBlock"></app-input>
-  <ng-template #elseBlock >
+  <ng-template #elseBlock>
     <app-report-page></app-report-page>
   </ng-template>
-  
+
 </ion-content>

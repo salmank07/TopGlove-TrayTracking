@@ -1,15 +1,15 @@
 // ion-col {
 //     border: 1px  solid rgba(0,0,0, 0.3);
 // }
-.ReportTable ion-row:nth-child(even) {
-    background-color: rgba(0,0,0, .04)
+.ReportTable div:nth-child(even) {
+    background-color: #fff;
 }
-.ReportTable ion-row:nth-child(odd) {
-    background-color: #fff
+.ReportTable div:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.04);
 }
-.ReportTable ion-row:last-child {
+.ReportTable div:last-child {
     border-radius: 0 0 10px 10px;
-  }
+}
 .ReportTable ion-grid {
     border-radius: 10px;
     background: #fff;
@@ -38,20 +38,18 @@ h2 {
 .infoBar {
     border-radius: 10px;
     padding: 25px 14px !important;
-    
 }
 .infoBar ion-col {
     background: #fff;
-    
 }
 .ReportTable ion-button {
-    --border-width:1px;
+    --border-width: 1px;
 }
 .header {
     font-weight: 600;
     color: #15133c;
     background: #c4ddff !important;
-    border-radius:10px 10px 0 0 ;
+    border-radius: 10px 10px 0 0;
     padding: 4px 0;
 }
 // test
@@ -61,24 +59,38 @@ h2 {
 }
 .logo {
     height: 70px;
-  }
-  .app-header {
+}
+.app-header {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-  }
-  ion-header {
-      background: #fff;
+}
+ion-header {
+    background: #fff;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-  }
-  .filterpanel ion-item {
+}
+.filterpanel ion-item {
     border-radius: 20px;
     // box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     --inner-border-width: 0;
-    padding: 0px !important;
+    // padding: 0px !important;
 }
 .filterpanel ion-label {
     padding-left: 12px;
+    margin-bottom: 8px;
+}
+ion-select {
+    width: 100%;
+    justify-content: center;
+}
+ion-select::part(text) {
+    flex: 1 1 100px;
+}
+.filterpanel ion-input {
+    cursor: pointer;
+}
+.cursor {
+    cursor: pointer !important;
 }
