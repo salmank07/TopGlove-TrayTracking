@@ -10,8 +10,8 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ionic build --prod --aot",
-    "postinstall": "ionic build --prod"
+    "build": "ionic build --prod --aot"
+    
   },
   "private": true,
   "dependencies": {
