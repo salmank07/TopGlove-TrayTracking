@@ -79,7 +79,6 @@ export class Tab2Page {
     this.apiService.filterItem(payload).subscribe(data => {
       this.loadingService.hide();
       this._traydetails = data
-      console.log(this._traydetails)
 
       let airTrolleycount: number = 0;
       let OvenTrolleycount: number = 0;
@@ -231,7 +230,6 @@ export class Tab2Page {
       let removed = [...new Set(count)];
       this._userList = removed;
     });
-    console.log(this._userList, "userlist")
   }
 
 }

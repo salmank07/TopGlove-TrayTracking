@@ -29,14 +29,15 @@ export class Tab3Page implements OnInit {
     this.userdetails();
     this.generateForm();
   }
+
   _data: any
   isDeleted: any;
   user: any
   role: any
   spec: any
   view: boolean = false;
-  updateUserForm: FormGroup
 
+  updateUserForm: FormGroup
 
   ngOnInit(): void {
   }
@@ -48,6 +49,7 @@ export class Tab3Page implements OnInit {
       this._data = data
     });
   }
+
   onLoad() {
     this.user = localStorage.getItem('userName')
     this.spec = localStorage.getItem('Role')
@@ -57,7 +59,6 @@ export class Tab3Page implements OnInit {
       return true;
     }
     return false;
-
   }
 
   logout = () => {
@@ -107,4 +108,3 @@ export class Tab3Page implements OnInit {
     }
   }
 }
-

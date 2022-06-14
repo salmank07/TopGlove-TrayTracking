@@ -71,7 +71,7 @@ export class ReportPageComponent implements OnInit {
   currentUser: string = localStorage.getItem('userName')
   superUser: string = localStorage.getItem('isSuperUser')
   role: string = localStorage.getItem('Role')
-
+  
   loadReport() {
 
     
@@ -80,7 +80,7 @@ export class ReportPageComponent implements OnInit {
       'fromDate': new Date(this.from),
       'toDate': new Date(this.to),
       'user': this.user,
-      'process': this.process
+      'customer': this.process
     }
 
     this.loadingService.show();
