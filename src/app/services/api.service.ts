@@ -31,6 +31,7 @@ export class ApiService {
     localStorage.removeItem('userName');
     localStorage.removeItem('isSuperUser');
     localStorage.removeItem('Role');
+    localStorage.removeItem('currentUser')
   }
 
   updateTrayDetails = (params: any): Observable<any> => {
@@ -71,7 +72,6 @@ export class ApiService {
   }
 
   updateUser = (params: any): Observable<any> => {
-    console.log('geetha')
     const url = this.getUserApiUrl('UpdateLogin');
     return this.http.put(url, params);
   }

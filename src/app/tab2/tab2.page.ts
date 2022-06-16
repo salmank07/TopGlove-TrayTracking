@@ -17,6 +17,7 @@ export class Tab2Page {
     private toast: NotificationService,
     private loadingService: LoadingService
   ) {
+    
     this.generateTrayDetails();
     this.userList();
   }
@@ -75,9 +76,13 @@ export class Tab2Page {
       'user': this.user,
       'process': this.process
     }
-    this.loadingService.show();
-    this.apiService.filterItem(payload).subscribe(data => {
-      this.loadingService.hide();
+
+    
+    let test = this.apiService.filterItem(payload)
+    
+
+    test.subscribe(data => {
+
       this._traydetails = data
 
       let airTrolleycount: number = 0;
@@ -209,9 +214,8 @@ export class Tab2Page {
       }
       this.totalQuantity = this._releasedQuan + this._releasedQuan1 + this._releasedQuan2;
       this.totalCount = this._releasedCount + this._releasedCount1 + this._releasedCount2;
-    })
+    });
     this.userList();
-
   }
 
   userList() {

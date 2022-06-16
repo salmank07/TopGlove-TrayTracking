@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <ion-list-header>
     <ion-label *ngIf="role == 'false'">Welcome {{ user }}!</ion-label>
-    <ion-label *ngIf="role == 'true'">Welcome Ray!</ion-label>
+    <ion-label *ngIf="role == 'true'">Welcome {{ currentUser }}</ion-label>
     <ion-item lines="none">
       <ion-button (click)="logout()" style="padding-right: 10px;" class="primary">
         <ion-icon slot="start" name="log-out-outline"></ion-icon>
@@ -14,7 +14,7 @@
     <ion-item-sliding>
       <ion-item>
         <ion-label *ngIf="role == 'false'">{{ user }}<br /><span>{{ spec }}</span></ion-label>
-        <ion-label *ngIf="role == 'true'">Ray<br /><span>Admin</span></ion-label>
+        <ion-label *ngIf="role == 'true'">{{ currentUser }}<br /><span>Admin</span></ion-label>
       </ion-item>
       <ion-item-options>
         <ion-item-option color="primary">
@@ -104,11 +104,8 @@
                     </ion-col>
                   </ion-row>
                   <ion-row>
-                    <ion-col style="padding-left: 21px;">
-                      <ion-button expand="block" color="medium" fill="outline">Reset</ion-button>
-                    </ion-col>
                     <ion-col style="padding-right: 21px;">
-                      <ion-button type="submit" class="dbutton" expand="block">Create!</ion-button>
+                      <ion-button type="submit" class="dbutton" expand="block">Update!</ion-button>
                     </ion-col>
                   </ion-row>
                 </div>
@@ -137,7 +134,7 @@
                 <ion-row class="ion-no-padding ion-no-margin">
                   <ion-col class="ion-no-padding ion-no-margin">
                     <ion-button id="trigger-button{{i}}" color="primary" size="snall">
-                      <ion-icon name="trash-outline"></ion-icon>
+                      <ion-icon name="create-outline"></ion-icon>
                     </ion-button>
                   </ion-col>
                   <ion-col class="ion-no-padding ion-no-margin">

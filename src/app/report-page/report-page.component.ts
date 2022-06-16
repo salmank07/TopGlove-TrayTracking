@@ -97,32 +97,6 @@ export class ReportPageComponent implements OnInit {
         let convr = moment(this._test).valueOf()
         if (this._trayDetails[i].process == 'Air Dry' && this.superUser == 'true') {
           this._a = moment(this._test).add(1, 'days').format('');
-
-          {
-            // let conver = moment(this._a).valueOf();
-            // let eventTime: any = conver;
-            // let currentTime: any = convr;
-            // let diffTime: any = eventTime - currentTime;
-            // let duration: any = moment.duration(diffTime * 1000, 'milliseconds');
-            // let interval = 1000;
-
-            // setInterval(() => {
-            //   let result = moment.duration(duration - interval, 'milliseconds');
-            //   this._hour.push(result.hours());
-            //   this._minutes.push(result.minutes());
-            //   this._sec.push(result.seconds());
-            // }, interval);
-          }
-
-          //   {
-          //   if (this._test == this._a) {
-          //     this.statusAir = "completed";
-          //     console.log(this.statusAir, "air")
-          //   }
-          //   else {
-          //     this.statusAir = "In Process";
-          //   }
-          // }
           this.pView.push(this._trayDetails[i])
           this._count.push(this._a)
         }
@@ -135,33 +109,6 @@ export class ReportPageComponent implements OnInit {
         }
         else if (this._trayDetails[i].process == 'Oven Dry' && this.superUser == 'true') {
           this._a = moment(this._test).add(2, 'days').format('');
-
-
-          {
-
-            //   let conver = moment(this._a).valueOf();
-            //   let eventTime: any = conver;
-            //   let currentTime: any = convr;
-            //   let diffTime: any = eventTime - currentTime;
-            //   let duration: any = moment.duration(diffTime * 1000, 'milliseconds');
-            //   let interval = 1000;
-            //   setInterval(() => {
-            //     let result = moment.duration(duration - interval, 'milliseconds');
-            //     this._hour.push(result.hours());
-            //     this._minutes.push(result.minutes());
-            //     this._sec.push(result.seconds());
-            //   });
-          }
-
-          {
-            // if (this._a == this._a) {
-            //   this.statusOven = "completed";
-            // }
-            // else {
-            //   this.statusOven = "In Process";
-            // }
-          }
-
           this.pView.push(this._trayDetails[i])
           this._count.push(this._a)
           console.log(this._hour, "hour")
@@ -218,19 +165,10 @@ export class ReportPageComponent implements OnInit {
       'process': this.process
     }
     this.apiService.getExcelReport(payload).subscribe(response => {
-      // FileSaver.saveAs(response);
-      const file = new Blob([response.body], { type: 'application/xlsx' });
+      const file = new Blob([response], { type: 'application/xlsx' });
       const fileName = `${moment().format('YYYY-MM-DD')}.xlsx`;
-      // this.date = new Date();
-      // const latest_date =this.datepipe.transform(this.date, 'yyyy-MM-dd.xlsx');
       this.loadingService.hide();
-      // saveAs(file, fileName);
-      // const fileName = `${moment().format('YYYY-MM-DD')}TopGlove.xlsx`;
       FileSaver.saveAs(file, fileName);
-      // const fileName = `topglove.xlsx`;
-      // this.loadingService.hide();
-      // saveAs();
-      // FileSaver.saveAs(file, fileName);
     }, (error) => {
       this.toast.error("Please try again later.");
       this.loadingService.hide();
@@ -255,6 +193,7 @@ export class ReportPageComponent implements OnInit {
       formerType: [''],
       noOfFormer: [''],
       batchNo: [''],
+      trolleyNo: [''],
       process: [''],
       dateTime: [''],
       status: [''],

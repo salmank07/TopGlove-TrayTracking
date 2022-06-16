@@ -8,6 +8,7 @@ import { UserService } from '../services/user.service';
 import { ModalController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { AppUpdatorService } from '../services/app-updator.service';
+import { promise } from 'protractor';
 
 @Component({
   selector: 'app-tab3',
@@ -35,6 +36,7 @@ export class Tab3Page implements OnInit {
   user: any
   role: any
   spec: any
+  currentUser: any
   view: boolean = false;
 
   updateUserForm: FormGroup
@@ -54,6 +56,7 @@ export class Tab3Page implements OnInit {
     this.user = localStorage.getItem('userName')
     this.spec = localStorage.getItem('Role')
     this.role = localStorage.getItem('isSuperUser')
+    this.currentUser = localStorage.getItem('currentUser')
 
     if (this.role == 'true') {
       return true;
@@ -85,7 +88,7 @@ export class Tab3Page implements OnInit {
     });
   }
 
-  updateUser = () => {
+  updateUser() {
     this.apiService.updateUser(this.updateUserForm.value).subscribe(data => {
       this.toast.success('Updated Successfully')
       this.updateUserForm.reset();

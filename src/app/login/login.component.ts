@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
-
+  currentUserName:any
   loginForm: FormGroup
 
   loadLoginForm = () => {
@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
   login() {
     this.loadingService.show();
     this.apiservice.doLogin(this.loginForm.value).subscribe((res) => {
-      
       if (res) {
         this.userService.User = res.userName;
         this.userService.Role = res.role;
@@ -53,6 +52,7 @@ export class LoginComponent implements OnInit {
         }
         else {
           this.userService.IsSuperUser = true;
+          localStorage.setItem('currentUser', this.loginForm.value.userName)
           this.loadingService.hide();
           this.router.navigate(['/tabs/tab2'], { replaceUrl: true });
         }
