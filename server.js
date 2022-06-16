@@ -6,7 +6,7 @@ const cors = require('cors')
 
 const app = express();
 
-app.use(cors());
+app.use(cors({origin: 'http://194.163.34.47:5000'}));
 
 // Serve only the static files form the dist directory
 app.use(express.static('./www'));
