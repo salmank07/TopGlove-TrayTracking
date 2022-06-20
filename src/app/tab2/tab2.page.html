@@ -1,26 +1,27 @@
-<ion-content class="ion-no-padding"  style="--background: #f9f9fc;">
+<ion-content class="ion-no-padding" style="--background: #f9f9fc;">
   <ion-grid class="infoBar ion-padding-top">
     <ion-row class="filterpanel ion-padding-start ion-padding-bottom ion-padding-end">
       <ion-col id="open-date-input-1" size="6" size-sm="2.5">
         <ion-label>Start date</ion-label>
         <ion-item>
-          <!-- <ion-input [value]="convertedFrom || currentdateFrom"></ion-input> -->
           <ion-text class="cursor">{{ convertedFrom || currentdateFrom }}</ion-text>
           <ion-popover trigger="open-date-input-1">
             <ng-template>
-              <ion-datetime [(ngModel)]="from" #popoverDatetime1 presentation="date-time" (ionChange)="convertedFrom = convert(popoverDatetime1.value)">
+              <ion-datetime [(ngModel)]="from" #popoverDatetime1 presentation="date-time"
+                (ionChange)="convertedFrom = convert(popoverDatetime1.value)">
               </ion-datetime>
             </ng-template>
           </ion-popover>
         </ion-item>
       </ion-col>
-      <ion-col  id="open-date-input-2" size="6" size-sm="2.5">
+      <ion-col id="open-date-input-2" size="6" size-sm="2.5">
         <ion-label>End date</ion-label>
         <ion-item>
           <ion-text class="cursor">{{ convertedTo || currentdateTo }}</ion-text>
           <ion-popover trigger="open-date-input-2">
             <ng-template>
-              <ion-datetime [(ngModel)]="to" #popoverDatetime2 presentation="date-time" (ionChange)="convertedTo = convert(popoverDatetime2.value)">
+              <ion-datetime [(ngModel)]="to" #popoverDatetime2 presentation="date-time"
+                (ionChange)="convertedTo = convert(popoverDatetime2.value)">
               </ion-datetime>
             </ng-template>
           </ion-popover>
@@ -29,18 +30,15 @@
       <ion-col size="4" size-sm="2.5" class="ion-align-self-center">
         <ion-label>User</ion-label>
         <ion-item>
-          <div *ngIf="superUser == 'false'">
-            <ion-select [(ngModel)]="currentUser" interface="popover" placeholder="Select One">
-              <ion-select-option value="{{ currentUser }}">{{ currentUser }}</ion-select-option>
-            </ion-select>
-          </div>
-          <div *ngIf="superUser == 'true'">
-            <ion-select [(ngModel)]="user" interface="popover" placeholder="Select One">
-              <ion-select-option value="">All</ion-select-option>
-              <ion-select-option *ngFor="let displayUser of _userList" [value]="displayUser">{{ displayUser }}
-              </ion-select-option>
-            </ion-select>
-          </div>
+          <ion-select *ngIf="superUser == 'false'" [(ngModel)]="currentUser" interface="popover"
+            placeholder="Select One">
+            <ion-select-option value="{{ currentUser }}">{{ currentUser }}</ion-select-option>
+          </ion-select>
+          <ion-select *ngIf="superUser == 'true'" [(ngModel)]="user" interface="popover" placeholder="Select One">
+            <ion-select-option value="">All</ion-select-option>
+            <ion-select-option *ngFor="let displayUser of _userList" [value]="displayUser">{{ displayUser }}
+            </ion-select-option>
+          </ion-select>
         </ion-item>
       </ion-col>
       <ion-col size="4" size-sm="2.5" class="ion-align-self-center">

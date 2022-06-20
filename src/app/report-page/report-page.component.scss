@@ -32,7 +32,7 @@ span {
 }
 h2 {
     color: #15133c;
-    margin: 25px 0 20px 0;
+    margin: 25px 0 0 0;
     font-weight: bold;
 }
 .infoBar {
@@ -93,4 +93,8 @@ ion-select::part(text) {
 }
 .cursor {
     cursor: pointer !important;
+}
+.search22 ion-searchbar {
+    --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    --border-radius: 22px;
 }

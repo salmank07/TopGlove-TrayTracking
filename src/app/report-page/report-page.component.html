@@ -16,7 +16,6 @@
     <ion-col size="6" size-sm="2.5">
       <ion-label>End date</ion-label>
       <ion-item id="open-date-input-22" lines="none">
-        <!-- <ion-input [value]="convertedTo || currentdateTo" ></ion-input> -->
         <ion-text class="cursor">{{ convertedTo || currentdateTo }}</ion-text>
         <ion-popover trigger="open-date-input-22">
           <ng-template>
@@ -30,30 +29,26 @@
     <ion-col size="4" size-sm="2.5" class="ion-align-self-center ion-justify-content-center">
       <ion-label>User</ion-label>
       <ion-item lines="none">
-
         <ion-select *ngIf="superUser == 'false'" class="ion-no-padding" [(ngModel)]="currentUser" interface="popover"
           placeholder="Select One">
           <ion-select-option value="{{ currentUser }}">{{ currentUser }}</ion-select-option>
         </ion-select>
-
-
         <ion-select *ngIf="superUser == 'true'" [(ngModel)]="user" class="ion-no-padding" interface="popover"
           placeholder="Select One">
           <ion-select-option value="">All</ion-select-option>
           <ion-select-option *ngFor="let displayUser of _userList" [value]="displayUser">{{ displayUser }}
           </ion-select-option>
         </ion-select>
-
       </ion-item>
     </ion-col>
     <ion-col size="4" size-sm="2.5" class="ion-align-self-end ion-justify-content-center">
       <ion-label>Process</ion-label>
       <ion-item lines="none">
-
         <ion-select [(ngModel)]="process" interface="popover" class="ion-no-padding" placeholder="Select One">
           <ion-select-option value="">All</ion-select-option>
           <ion-select-option value="Air Dry">Air Dry</ion-select-option>
           <ion-select-option value="Oven Dry">Oven Dry</ion-select-option>
+          <ion-select-option value="ReOven">ReOven</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-col>
@@ -65,6 +60,11 @@
 <ion-text color="dark">
   <h2>Report</h2>
 </ion-text>
+<ion-row class="search22 ion-justify-content-end">
+  <ion-col size="4">
+    <ion-searchbar lines="none" (keyup.enter)="testingModal()" [(ngModel)]="salman"></ion-searchbar>
+  </ion-col>
+</ion-row>
 <ion-grid class="ReportTable" style="text-align: center;">
   <ion-row class="header">
     <ion-col size=".5">
@@ -131,8 +131,6 @@
       <ion-col size="1.8">
         <ion-chip color="success">
           <ion-label color="success">{{ item.status }}</ion-label>
-          <!-- <ion-label color="success" *ngIf="item.process == 'Air Dry'">{{ statusAir }}</ion-label>
-            <ion-label color="succcess" *ngIf="item.process == 'Oven Dry'">{{ statusOven }}</ion-label> -->
         </ion-chip>
       </ion-col>
       <ion-col size="1">
@@ -144,7 +142,7 @@
   </div>
 </ion-grid>
 <div *ngFor="let item of pView; let i = index;">
-  <ion-modal trigger="trigger-button{{i}}">
+  <ion-modal [isOpen]="false" trigger="trigger-button{{i}}">
     <ng-template>
       <ion-content>
         <ion-grid class="ion-no-margin">

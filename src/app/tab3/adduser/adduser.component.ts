@@ -52,16 +52,12 @@ export class AdduserComponent implements OnInit {
         return
       }
       this.apiService.checkUser(this.f.userName.value).subscribe(data => {
-        console.log(data, 'User')
         if (data['message'] == 'You Can Enter') {
           this.ischeckUser = false
         } else {
           this.ischeckUser = true;
           this.isShowError = true
-  
         }
-        console.log(data, 'Email')
-  
       });
   
     }

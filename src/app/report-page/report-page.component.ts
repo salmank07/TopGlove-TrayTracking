@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../services/api.service';
 import * as FileSaver from 'file-saver';
 import * as moment from 'moment';
@@ -7,6 +7,7 @@ import { NotificationService } from '../services/toast.service';
 import { saveAs } from 'file-saver';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { triggerAsyncId } from 'async_hooks';
 
 
 
@@ -18,34 +19,35 @@ import { ModalController } from '@ionic/angular';
 })
 export class ReportPageComponent implements OnInit {
 
+
+
   date: any;
   constructor(
     private apiService: ApiService,
     private toast: NotificationService,
     private loadingService: LoadingService,
     private fb: FormBuilder,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private elementRef: ElementRef
   ) {
 
     this.loadReport();
     this.generateInputForm();
   }
+  @ViewChild('namedElement') namedElement: ElementRef;
+
 
   ngOnInit() { }
-
+  errorMessage: boolean = true;
+  salman: any
   _trayDetails: any
   _count: string[] = [];
-
   pView: any[] = [];
-
   _userList: Array<string>[] = [];
-
   _hour: any[] = [];
   _minutes: any[] = [];
   _sec: any[] = [];
-
   _userList1: any[] = [];
-
   _test: any
   _a: any
   statusAir: any
@@ -54,33 +56,46 @@ export class ReportPageComponent implements OnInit {
   process: string = null
   from: string = moment().format();
   to: string = moment().format();
-  convertedFrom:any
-  convertedTo:any
-  
+  convertedFrom: any
+  convertedTo: any
   currentdateFrom = moment().format('MMMM Do YYYY');
   currentdateTo = moment().format('MMMM Do YYYY');
 
   convert(params: any): string {
-   return   moment(params).format('MMMM Do YYYY, h:mm:ss');
+    return moment(params).format('MMMM Do YYYY, h:mm:ss');
   }
 
   filterConvert(params: any): string {
-    return   moment(params).format('MMMM Do YYYY, h:mm:ss');
-   }
+    return moment(params).format('MMMM Do YYYY');
+  }
 
   currentUser: string = localStorage.getItem('userName')
   superUser: string = localStorage.getItem('isSuperUser')
   role: string = localStorage.getItem('Role')
-  
+
+  testingModal() {
+    let indexNo
+    for (let i = 0; i < this.pView.length; i++) {
+      if (this.salman == this.pView[i].trolleyNo) {
+        indexNo = i
+      }
+    }
+    if (indexNo == null) {
+      delete this.salman
+    }
+    else {
+      const test2 = document.getElementById("trigger-button" + indexNo);
+      test2.click();
+      delete this.salman
+    }
+  }
+
   loadReport() {
-
-    
-
     let payload = {
       'fromDate': new Date(this.from),
       'toDate': new Date(this.to),
       'user': this.user,
-      'customer': this.process
+      'process': this.process
     }
 
     this.loadingService.show();
@@ -111,7 +126,6 @@ export class ReportPageComponent implements OnInit {
           this._a = moment(this._test).add(2, 'days').format('');
           this.pView.push(this._trayDetails[i])
           this._count.push(this._a)
-          console.log(this._hour, "hour")
         }
         else if (this._trayDetails[i].process == 'Oven Dry' && this.superUser == 'false') {
           if (this._trayDetails[i].user == this.currentUser) {
@@ -134,8 +148,6 @@ export class ReportPageComponent implements OnInit {
         }
       }
     });
-    console.log(this.pView, "sepaarate");
-    console.log(this._count, "sepaarate");
     this.userList();
   }
 
